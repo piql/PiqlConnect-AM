@@ -1,7 +1,7 @@
 [submodule "archivematica"]
 	path = src/archivematica
 	url = https://github.com/artefactual/archivematica
-	branch = v1.9.2
+	branch = v1.9.3
 [submodule "archivematica-storage-service"]
 	path = src/archivematica-storage-service
 	url = https://github.com/artefactual/archivematica-storage-service
