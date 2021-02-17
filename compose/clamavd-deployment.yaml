@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: clamavd
+  name: clamavd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: clamavd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/archivematica-network: "true"
+        io.kompose.service: clamavd
+    spec:
+      containers:
+        - env:
+            - name: CLAMAV_MAX_FILE_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_FILE_SIZE
+                  name: clamav-env
+            - name: CLAMAV_MAX_SCAN_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_SCAN_SIZE
+                  name: clamav-env
+            - name: CLAMAV_MAX_STREAM_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_STREAM_LENGTH
+                  name: clamav-env
+          image: artefactual/clamav:latest
+          name: clamavd
+          ports:
+            - containerPort: 3310
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: archivematica-pipeline-data
+          persistentVolumeClaim:
+            claimName: archivematica-pipeline-data
+            readOnly: true
+status: {}

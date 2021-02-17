@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: gearmand
+  name: gearmand
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: gearmand
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/archivematica-network: "true"
+        io.kompose.service: gearmand
+    spec:
+      containers:
+        - args:
+            - --queue-type=redis
+            - --redis-server=redis
+            - --redis-port=6379
+          image: artefactual/gearmand:1.1.17-alpine
+          name: gearmand
+          ports:
+            - containerPort: 4730
+          resources: {}
+      restartPolicy: Always
+status: {}

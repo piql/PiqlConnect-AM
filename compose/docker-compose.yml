@@ -1,5 +1,5 @@
 ---
-version: "2.1"
+version: "3"
 
 volumes:
 
@@ -89,6 +89,7 @@ services:
 
   clamavd:
     image: "artefactual/clamav:latest"
+    env_file: clamav.env
     environment:
       CLAMAV_MAX_FILE_SIZE: "${CLAMAV_MAX_FILE_SIZE}"
       CLAMAV_MAX_SCAN_SIZE: "${CLAMAV_MAX_SCAN_SIZE}"

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: archivematica-storage-service
+  name: archivematica-storage-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: archivematica-storage-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/archivematica-network: "true"
+        io.kompose.service: archivematica-storage-service
+    spec:
+      containers:
+        - env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: storage_service.settings.local
+            - name: FORWARDED_ALLOW_IPS
+              value: '*'
+            - name: SS_DB_URL
+              value: mysql://archivematica:demo@mysql/SS
+            - name: SS_GNUPG_HOME_PATH
+              value: /var/archivematica/storage_service/.gnupg
+            - name: SS_GUNICORN_ACCESSLOG
+              value: /dev/null
+            - name: SS_GUNICORN_RELOAD
+              value: "true"
+            - name: SS_GUNICORN_RELOAD_ENGINE
+              value: auto
+          image: archivematica-storage-service
+          name: archivematica-storage-service
+          resources: {}
+          volumeMounts:
+            - mountPath: /src/
+              name: archivematica-storage-service-claim0
+            - mountPath: /home/archivematica/archivematica-sampledata/
+              name: archivematica-storage-service-claim1
+              readOnly: true
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+            - mountPath: /var/archivematica/storage_service
+              name: archivematica-storage-service-staging-data
+            - mountPath: /home
+              name: archivematica-storage-service-location-data
+      restartPolicy: Always
+      volumes:
+        - name: archivematica-storage-service-claim0
+          persistentVolumeClaim:
+            claimName: archivematica-storage-service-claim0
+        - name: archivematica-storage-service-claim1
+          persistentVolumeClaim:
+            claimName: archivematica-storage-service-claim1
+            readOnly: true
+        - name: archivematica-pipeline-data
+          persistentVolumeClaim:
+            claimName: archivematica-pipeline-data
+        - name: archivematica-storage-service-staging-data
+          persistentVolumeClaim:
+            claimName: archivematica-storage-service-staging-data
+        - name: archivematica-storage-service-location-data
+          persistentVolumeClaim:
+            claimName: archivematica-storage-service-location-data
+status: {}
