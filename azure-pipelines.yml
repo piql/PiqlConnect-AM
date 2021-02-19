@@ -1,0 +1,53 @@
+#
+# Build pipeline for development versions
+trigger:
+- main
+
+# Avoid using this pipeline for PR
+pr: none
+
+# Build number: 20210112.1-DEV
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+resources:
+- repo: self
+
+variables:
+  # Environment variables used by docker-compose
+  VERSION: '$(build.buildNumber)'
+  DOCKER_REGISTRY: '$(dockerRegistryId).azurecr.io'
+
+  # Build Agent VM image
+  vmImageName: 'ubuntu-20.04'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:    
+    # Verify Docker build agent installation status
+    - script: sudo service docker status
+      displayName: 'Verify docker installation status'
+
+    # Build container images
+    - task: DockerCompose@0
+      displayName: Build container images
+      inputs:
+        action: Build services
+        dockerComposeFile: docker-compose.yml
+
+    - task: DockerCompose@0
+      displayName: Publish container images
+      inputs:
+        action: Push services
+        azureSubscriptionEndpoint: '$(subscriptionEndpoint)'
+        azureContainerRegistry: $(DOCKER_REGISTRY)
+        dockerComposeFile: docker-compose.yml
+   
+    - publish: kube
+      artifact: kube
+      displayName: Publish Kubernetes manifests
