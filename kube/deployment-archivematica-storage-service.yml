@@ -30,7 +30,7 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               value: "ServersAreKewl!"
             - name: SS_DB_URL
-              value: mysql://archivematica-mysql.mysql.database.azure.com:piqlconnect@archivematica-mysql/SS
+              value: '#{SS_DB_URL}#'
             - name: SS_GNUPG_HOME_PATH
               value: /var/archivematica/storage_service/.gnupg
             - name: SS_GUNICORN_ACCESSLOG
