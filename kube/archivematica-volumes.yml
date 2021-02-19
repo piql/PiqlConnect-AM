@@ -22,9 +22,27 @@ parameters:
   location: westeurope
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: archivematica-pipeline-data
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: archivematica-storage-secret
+    shareName: archivematica-pipeline-data
+    readOnly: false
+  claimRef:
+    name: archivematica-pipeline-data
+    namespace: archivematica  
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: archivematica-pipeline-data
+  namespace: archivematica
 spec:
   accessModes:
   - ReadWriteMany
@@ -32,11 +50,29 @@ spec:
   resources:
     requests:
       storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: archivematica-storage-service-staging-data
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: archivematica-storage-secret
+    shareName: archivematica-storage-service-staging-data
+    readOnly: false
+  claimRef:
+    name: archivematica-storage-service-staging-data
+    namespace: archivematica  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: archivematica-storage-service-staging-data
+  namespace: archivematica
 spec:
   accessModes:
   - ReadWriteMany
@@ -46,9 +82,27 @@ spec:
       storage: 5Gi
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: archivematica-storage-service-location-data
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: archivematica-storage-secret
+    shareName: archivematica-storage-service-location-data
+    readOnly: false
+  claimRef:
+    name: archivematica-storage-service-location-data
+    namespace: archivematica  
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: archivematica-storage-service-location-data
+  namespace: archivematica
 spec:
   accessModes:
   - ReadWriteMany
