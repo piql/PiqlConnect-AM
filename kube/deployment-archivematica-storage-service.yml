@@ -39,7 +39,7 @@ spec:
               value: "true"
             - name: SS_GUNICORN_RELOAD_ENGINE
               value: auto
-          image: ${DOCKER_REGISTRY:-local}/archivematica-storage-service:${VERSION:-dev}
+          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
           name: archivematica-storage-service
           resources: 
             requests:
