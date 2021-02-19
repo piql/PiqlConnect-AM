@@ -29,6 +29,9 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:    
+    - checkout: self
+      submodules: true
+
     # Verify Docker build agent installation status
     - script: sudo service docker status
       displayName: 'Verify docker installation status'
