@@ -54,3 +54,44 @@ stages:
     - publish: kube
       artifact: kube
       displayName: Publish Kubernetes manifests
+
+- stage: Deploy
+  displayName: Deploy to archivematica environment
+  dependsOn: Build
+
+  variables:
+  - name: environment
+    value: 'Archivematica'
+  - name: serviceEndpoint
+    value: 'archivematica'
+  - name: namespace
+    value: 'archivematica'
+
+  - group: 'archivematica.env'
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy Kubernetes resources
+    pool:
+      vmImage: $(vmImageName)
+    environment:
+      name: ${{ variables.environment }}
+      resourceType: Kubernetes
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace tokens in **/*.yml'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/kube'
+              targetFiles: '**/*.yml'
+              escapeType: none  
+   
+          - task: KubernetesManifest@0
+            displayName: Deploy services            
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: ${{ variables.serviceEndpoint }}
+              namespace: $(namespace)
+              manifests: '$(Pipeline.Workspace)/kube/deployment-*.yml'
