@@ -38,7 +38,7 @@ stages:
       displayName: Build container images
       inputs:
         action: Build services
-        dockerComposeFile: docker-compose.yml
+        dockerComposeFile: /compose/docker-compose.yml
 
     - task: DockerCompose@0
       displayName: Publish container images
@@ -46,7 +46,7 @@ stages:
         action: Push services
         azureSubscriptionEndpoint: '$(subscriptionEndpoint)'
         azureContainerRegistry: $(DOCKER_REGISTRY)
-        dockerComposeFile: docker-compose.yml
+        dockerComposeFile: /compose/docker-compose.yml
    
     - publish: kube
       artifact: kube
