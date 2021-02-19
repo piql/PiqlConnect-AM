@@ -1,0 +1,50 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: archivematica-sc
+provisioner: kubernetes.io/azure-file
+allowVolumeExpansion: true
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
+  - mfsymlinks
+  - cache=strict  # https://linux.die.net/man/8/mount.cifs
+  - nosharesock  # reduce probability of reconnect race
+  - actimeo=30  # reduce latency for metadata-heavy workload
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  skuName: Standard_LRS
+  storageAccount: archivematicastorage
+  location: westeurope
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 'archivematica_pipeline_data_pv'
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: archivematica-sc
+  claimRef:
+    name: archivematica_pipeline_data_pvc
+    namespace: archivematica
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: archivematica_pipeline_data_pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: archivematica-sc
+  resources:
+    requests:
+      storage: 5Gi

@@ -114,6 +114,7 @@ services:
       - archivematica-network
 
   archivematica-mcp-server:
+    image: ${DOCKER_REGISTRY:-local}/archivematica-mcp-server:${VERSION:-dev}
     build:
       context: "../src/archivematica/src"
       dockerfile: "MCPServer.Dockerfile"
@@ -138,6 +139,7 @@ services:
       - archivematica-network
 
   archivematica-mcp-client:
+    image: ${DOCKER_REGISTRY:-local}/archivematica-mcp-client:${VERSION:-dev}
     build:
       context: "../src/archivematica/src"
       dockerfile: "MCPClient.Dockerfile"
@@ -175,6 +177,7 @@ services:
       - archivematica-network
 
   archivematica-dashboard:
+    image: ${DOCKER_REGISTRY:-local}/archivematica-dashboard:${VERSION:-dev}
     build:
       context: "../src/archivematica/src"
       dockerfile: "dashboard.Dockerfile"
@@ -204,6 +207,7 @@ services:
       - archivematica-network
 
   archivematica-storage-service:
+    image: ${DOCKER_REGISTRY:-local}/archivematica-storage-service:${VERSION:-dev}
     build:
       context: "../src/archivematica-storage-service"
     environment:
