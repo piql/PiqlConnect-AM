@@ -27,8 +27,10 @@ spec:
               value: storage_service.settings.local
             - name: FORWARDED_ALLOW_IPS
               value: '*'
+            - name: MYSQL_ROOT_PASSWORD
+              value: "ServersAreKewl!"
             - name: SS_DB_URL
-              value: mysql://archivematica:demo@mysql/SS
+              value: mysql://archivematica-mysql.mysql.database.azure.com:piqlconnect@archivematica-mysql/SS
             - name: SS_GNUPG_HOME_PATH
               value: /var/archivematica/storage_service/.gnupg
             - name: SS_GUNICORN_ACCESSLOG
@@ -39,7 +41,13 @@ spec:
               value: auto
           image: archivematica-storage-service
           name: archivematica-storage-service
-          resources: {}
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
           volumeMounts:
 #            - mountPath: /src/
 #              name: archivematica-storage-service-claim0
@@ -53,14 +61,7 @@ spec:
             - mountPath: /home
               name: archivematica-storage-service-location-data
       restartPolicy: Always
-      volumes:
-        - name: archivematica-storage-service-claim0
-          persistentVolumeClaim:
-            claimName: archivematica-storage-service-claim0
-        - name: archivematica-storage-service-claim1
-          persistentVolumeClaim:
-            claimName: archivematica-storage-service-claim1
-            readOnly: true
+      volumes:       
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
             claimName: archivematica-pipeline-data
@@ -70,4 +71,3 @@ spec:
         - name: archivematica-storage-service-location-data
           persistentVolumeClaim:
             claimName: archivematica-storage-service-location-data
-status: {}

@@ -22,28 +22,36 @@ parameters:
   location: westeurope
 ---
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: 'archivematica_pipeline_data_pv'
+  name: archivematica-pipeline-data
 spec:
-  capacity:
-    storage: 5Gi
-  volumeMode: Filesystem
   accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
+  - ReadWriteMany
   storageClassName: archivematica-sc
-  claimRef:
-    name: archivematica_pipeline_data_pvc
-    namespace: archivematica
+  resources:
+    requests:
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: archivematica_pipeline_data_pvc
+  name: archivematica-storage-service-staging-data
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
+  storageClassName: archivematica-sc
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: archivematica-storage-service-location-data
+spec:
+  accessModes:
+  - ReadWriteMany
   storageClassName: archivematica-sc
   resources:
     requests:
