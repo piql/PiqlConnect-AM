@@ -68,8 +68,8 @@ spec:
                 secretKeyRef:
                   name: teq-databases
                   key: databases.json    
-              command: ['/src/storage_service/manage.py']
-              args: ["migrate --noinput"]
+          command: ['/src/storage_service/manage.py']
+          args: ["migrate --noinput"]
 
       restartPolicy: Always
 
