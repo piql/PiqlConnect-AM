@@ -58,7 +58,21 @@ spec:
               name: archivematica-storage-service-staging-data
             - mountPath: /home
               name: archivematica-storage-service-location-data
+
+      initContainers:
+        - name: teq-dbloader
+          image: '#{DOCKER_REGISTRY}#/teq.dbhandler:#{VERSION}#'      
+          env:
+            - name: DATABASES
+              valueFrom:
+                secretKeyRef:
+                  name: teq-databases
+                  key: databases.json    
+              command: ['/src/storage_service/manage.py']
+              args: ["migrate --noinput"]
+
       restartPolicy: Always
+
       volumes:       
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
