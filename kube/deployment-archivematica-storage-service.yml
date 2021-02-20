@@ -60,8 +60,8 @@ spec:
               name: archivematica-storage-service-location-data
 
       initContainers:
-        - name: teq-dbloader
-          image: '#{DOCKER_REGISTRY}#/teq.dbhandler:#{VERSION}#'      
+        - name: archivematica-storage-service-loader
+          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'   
           env:
             - name: DATABASES
               valueFrom:
