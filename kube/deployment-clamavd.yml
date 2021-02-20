@@ -1,0 +1,100 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: archivematica-clamav-env
+  namespace: '#{namespace}#'
+data:
+  CLAMAV_MAX_FILE_SIZE: 2GB
+  CLAMAV_MAX_SCAN_SIZE: 2GB
+  CLAMAV_MAX_STREAM_LENGTH: 2GB
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivematica-clamavd
+  namespace: '#{namespace}#'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-clamavd
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops  
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: archivematica-clamavd
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops 
+    spec:
+      containers:
+        - image: artefactual/clamav:latest
+          name: clamavd
+          ports:
+            - containerPort: 3310
+          env:
+            - name: CLAMAV_MAX_FILE_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_FILE_SIZE
+                  name: archivematica-clamav-env
+            - name: CLAMAV_MAX_SCAN_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_SCAN_SIZE
+                  name: archivematica-clamav-env
+            - name: CLAMAV_MAX_STREAM_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  key: CLAMAV_MAX_STREAM_LENGTH
+                  name: archivematica-clamav-env
+        
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+
+          volumeMounts:
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: archivematica-pipeline-data
+          persistentVolumeClaim:
+            claimName: archivematica-pipeline-data
+            readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '#{namespace}#'
+  name: archivematica-clamavd
+  labels:
+    app.kubernetes.io/name: archivematica-clamavd
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops
+spec:
+  ports:
+    - name: "62006"
+      port: 62006
+      targetPort: 3310
+  selector:
+    app.kubernetes.io/name: archivematica-fits
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops 
+
+

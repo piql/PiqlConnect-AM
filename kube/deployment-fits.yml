@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: archivematica-fits
+  namespace: '#{namespace}#'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-fits
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops    
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: archivematica-fits
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops 
+    spec:
+      containers:
+        - image: artefactual/fits-ngserver:0.8.4
+          name: archivematica-fits
+          ports:
+            - containerPort: 2113
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          volumeMounts:
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+      restartPolicy: Always
+      volumes:
+        - name: archivematica-pipeline-data
+          persistentVolumeClaim:
+            claimName: archivematica-pipeline-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '#{namespace}#'
+  name: archivematica-fits
+  labels:
+    app.kubernetes.io/name: archivematica-fits
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops 
+spec:
+  type: ClusterIP
+  ports:
+    - name: "62005"
+      port: 62005
+      targetPort: 2113
+  selector:
+    app.kubernetes.io/name: archivematica-fits
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops 
+
+
