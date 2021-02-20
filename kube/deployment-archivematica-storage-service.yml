@@ -64,7 +64,7 @@ spec:
         - name: archivematica-storage-service-loader
           image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
           command: ['/src/storage_service/manage.py']
-          args: ["migrate --noinput"]
+          args: ["archivematica-storage-service migrate --noinput"]
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: storage_service.settings.local
