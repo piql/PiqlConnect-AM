@@ -61,13 +61,7 @@ spec:
 
       initContainers:
         - name: archivematica-storage-service-loader
-          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'   
-          env:
-            - name: DATABASES
-              valueFrom:
-                secretKeyRef:
-                  name: teq-databases
-                  key: databases.json    
+          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
           command: ['/src/storage_service/manage.py']
           args: ["migrate --noinput"]
 
