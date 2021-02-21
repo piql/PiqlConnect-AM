@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivematica-gearmand
+  namespace: '#{namespace}#' 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-gearmand
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops  
+  strategy:
+    type: Recreate
+  template:
+    metadata:      
+      labels:
+        app.kubernetes.io/name: archivematica-gearmand
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops 
+    spec:
+      containers:
+        - image: artefactual/gearmand:1.1.17-alpine
+          name: gearmand
+          args:
+            - --queue-type=redis
+            - --redis-server=redis
+            - --redis-port=6379
+          ports:
+            - containerPort: 4730
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: archivematica-gearmand
+  namespace: '#{namespace}#'
+  labels:
+    app.kubernetes.io/name: archivematica-gearmand
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops 
+spec:
+  ports:
+    - name: "62004"
+      port: 62004
+      targetPort: 4730
+  selector:
+    app.kubernetes.io/name: archivematica-gearmand
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops
+
+

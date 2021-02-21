@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivematica-mcp-server
+  namespace: '#{namespace}#'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-mcp-server
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops  
+  strategy:
+    type: Recreate
+  template:
+    metadata:    
+      labels:
+        app.kubernetes.io/name: archivematica-mcp-server
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops
+    spec:
+      containers:
+        - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-server:#{VERSION}#'
+          name: archivematica-mcp-server
+          env:
+            - name: ARCHIVEMATICA_MCPSERVER_CLIENT_DATABASE
+              value: MCP
+            - name: ARCHIVEMATICA_MCPSERVER_CLIENT_HOST
+              value: mysql
+            - name: ARCHIVEMATICA_MCPSERVER_CLIENT_PASSWORD
+              value: demo
+            - name: ARCHIVEMATICA_MCPSERVER_CLIENT_USER
+              value: archivematica
+            - name: ARCHIVEMATICA_MCPSERVER_MCPSERVER_MCPARCHIVEMATICASERVER
+              value: gearmand:4730
+            - name: ARCHIVEMATICA_MCPSERVER_SEARCH_ENABLED
+              value: "false"
+            - name: DJANGO_SECRET_KEY
+              value: "12345"
+            - name: DJANGO_SETTINGS_MODULE
+              value: settings.common
+         
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          volumeMounts:          
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+      restartPolicy: Always
+      volumes:
+        - name: archivematica-pipeline-data
+          persistentVolumeClaim:
+            claimName: archivematica-pipeline-data

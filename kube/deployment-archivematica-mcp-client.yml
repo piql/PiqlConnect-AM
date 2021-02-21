@@ -1,32 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: archivematica-mcp-client
   name: archivematica-mcp-client
+  namespace: '#{namespace}#' 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: archivematica-mcp-client
+      app.kubernetes.io/name: archivematica-mcp-client
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops 
   strategy:
     type: Recreate
   template:
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
+    metadata:   
       labels:
-        io.kompose.network/archivematica-network: "true"
-        io.kompose.service: archivematica-mcp-client
+        app.kubernetes.io/name: archivematica-mcp-client
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops
     spec:
       containers:
-        - env:
+        - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-client:#{VERSION}#'
+          name: archivematica-mcp-client
+          env:
             - name: ARCHIVEMATICA_MCPCLIENT_CLIENT_DATABASE
               value: MCP
             - name: ARCHIVEMATICA_MCPCLIENT_CLIENT_HOST
@@ -61,30 +60,19 @@ spec:
               value: "2113"
             - name: NAILGUN_SERVER
               value: fits
-          image: archivematica-mcp-client
-          name: archivematica-mcp-client
-          resources: {}
+       
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
           volumeMounts:
-            - mountPath: /src/archivematicaCommon/
-              name: archivematica-mcp-client-claim0
-            - mountPath: /src/dashboard/
-              name: archivematica-mcp-client-claim1
-            - mountPath: /src/MCPClient/
-              name: archivematica-mcp-client-claim2
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
       restartPolicy: Always
-      volumes:
-        - name: archivematica-mcp-client-claim0
-          persistentVolumeClaim:
-            claimName: archivematica-mcp-client-claim0
-        - name: archivematica-mcp-client-claim1
-          persistentVolumeClaim:
-            claimName: archivematica-mcp-client-claim1
-        - name: archivematica-mcp-client-claim2
-          persistentVolumeClaim:
-            claimName: archivematica-mcp-client-claim2
+      volumes:     
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
             claimName: archivematica-pipeline-data
-status: {}
