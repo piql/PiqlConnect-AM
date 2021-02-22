@@ -49,11 +49,6 @@ spec:
               memory: "512Mi"
               cpu: "250m"
           volumeMounts:
-#            - mountPath: /src/
-#              name: archivematica-storage-service-claim0
-#            - mountPath: /home/archivematica/archivematica-sampledata/
-#              name: archivematica-storage-service-claim1
-#              readOnly: true
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
             - mountPath: /var/archivematica/storage_service
@@ -65,7 +60,7 @@ spec:
         - name: archivematica-storage-service-loader
           image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
           command: ['/src/storage_service/manage.py']
-          args: ["migrate --help"]
+          args: ["migrate help"]
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: storage_service.settings.local
