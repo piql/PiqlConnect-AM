@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: archivematica-storage-service
-  namespace: '#{namespace}#'
+  namespace: 'archivematica'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: archivematica-storage-service
-      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/instance: 'archivematica'
       app.kubernetes.io/part-of: piqlconnect
       app.kubernetes.io/managed-by: azure-devops    
   strategy:
@@ -17,8 +17,8 @@ spec:
     metadata:      
       labels:
         app.kubernetes.io/name: archivematica-storage-service
-        app.kubernetes.io/instance: '#{namespace}#'
-        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/instance: 'archivematica'
+        app.kubernetes.io/version: "20210222.3"    
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
     spec:

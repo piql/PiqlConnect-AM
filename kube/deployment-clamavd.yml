@@ -3,23 +3,23 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: archivematica-clamav-env
-  namespace: '#{namespace}#'
+  namespace: 'archivematica'
 data:
-  CLAMAV_MAX_FILE_SIZE: 2GB
-  CLAMAV_MAX_SCAN_SIZE: 2GB
-  CLAMAV_MAX_STREAM_LENGTH: 2GB
+  CLAMAV_MAX_FILE_SIZE: "2048"
+  CLAMAV_MAX_SCAN_SIZE: "2048"
+  CLAMAV_MAX_STREAM_LENGTH: "2048"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: archivematica-clamavd
-  namespace: '#{namespace}#'
+  namespace: 'archivematica'
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: archivematica-clamavd
-      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/instance: 'archivematica'
       app.kubernetes.io/part-of: piqlconnect
       app.kubernetes.io/managed-by: azure-devops  
   strategy:
@@ -28,8 +28,8 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: archivematica-clamavd
-        app.kubernetes.io/instance: '#{namespace}#'
-        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/instance: 'archivematica'
+        app.kubernetes.io/version: "1"    
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops 
     spec:
@@ -77,12 +77,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: '#{namespace}#'
+  namespace: 'archivematica'
   name: archivematica-clamavd
   labels:
     app.kubernetes.io/name: archivematica-clamavd
-    app.kubernetes.io/instance: '#{namespace}#'
-    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/instance: 'archivematica'
+    app.kubernetes.io/version: "1"    
     app.kubernetes.io/part-of: piqlconnect
     app.kubernetes.io/managed-by: azure-devops
 spec:
@@ -92,9 +92,7 @@ spec:
       targetPort: 3310
   selector:
     app.kubernetes.io/name: archivematica-fits
-    app.kubernetes.io/instance: '#{namespace}#'
-    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/instance: 'archivematica'
+    app.kubernetes.io/version: "1"    
     app.kubernetes.io/part-of: piqlconnect
     app.kubernetes.io/managed-by: azure-devops 
-
-
