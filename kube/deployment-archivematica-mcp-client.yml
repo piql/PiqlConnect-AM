@@ -4,7 +4,7 @@ metadata:
   name: archivematica-mcp-client
   namespace: '#{namespace}#' 
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: archivematica-mcp-client
@@ -76,3 +76,14 @@ spec:
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
             claimName: archivematica-pipeline-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  app.kubernetes.io/name: archivematica-storage-service
+spec:  
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app.kubernetes.io/name: archivematica-storage-service
