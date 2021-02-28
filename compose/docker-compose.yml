@@ -228,6 +228,15 @@ services:
       - "mysql"
     networks:
       - archivematica-network
+    
+  am-database-prepper:
+    image: ${DOCKER_REGISTRY:-local}/am-database-prepper:${VERSION:-dev}
+    build:
+      context: "../src/am-database-prepper"
+    links:
+      - "mysql"
+    networks:
+      - archivematica-network
 
 networks:
   archivematica-network:
