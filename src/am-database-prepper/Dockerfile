@@ -1,2 +1,3 @@
-FROM mysql:latest
+FROM alpine:latest
+RUN apk add mysql-client
 COPY . .
