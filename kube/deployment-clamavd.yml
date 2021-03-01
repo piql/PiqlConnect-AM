@@ -5,9 +5,9 @@ metadata:
   name: archivematica-clamav-env
   namespace: '#{namespace}#'
 data:
-  CLAMAV_MAX_FILE_SIZE: 2GB
-  CLAMAV_MAX_SCAN_SIZE: 2GB
-  CLAMAV_MAX_STREAM_LENGTH: 2GB
+  CLAMAV_MAX_FILE_SIZE: "2048"
+  CLAMAV_MAX_SCAN_SIZE: "2048"
+  CLAMAV_MAX_STREAM_LENGTH: "2048"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -95,6 +95,4 @@ spec:
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
-    app.kubernetes.io/managed-by: azure-devops 
-
-
+    app.kubernetes.io/managed-by: azure-devops
