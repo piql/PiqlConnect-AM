@@ -1,3 +1,4 @@
 FROM alpine:latest
 RUN apk add mysql-client
-COPY . .
+COPY *.sh .
+RUN ["chmod", "+x", "./*.sh"]
