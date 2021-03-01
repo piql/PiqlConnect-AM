@@ -63,9 +63,9 @@ spec:
       restartPolicy: Always
 
       initContainers:
-        - image: am-database-prepper
+        - image: '#{DOCKER_REGISTRY}#/am-database-prepper:#{VERSION}#'
           name: am-database-prepper
-          command: ['mcp-prep.sh']
+          command: ['./mcp-prep.sh']
         - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
           name: archivematica-dashboard-database-migrations
           command: ['/src/storage_service/manage.py']

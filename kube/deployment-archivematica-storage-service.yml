@@ -58,7 +58,7 @@ spec:
       initContainers:
         - name: am-database-prepper
           image: '#{DOCKER_REGISTRY}#/am-database-prepper:#{VERSION}#'
-          command: ['mcp-prep.sh']
+          command: ['./ss-prep.sh']
         - name: archivematica-storage-service-database-migrations
           image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
           command: ['/src/storage_service/manage.py']
