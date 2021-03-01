@@ -4,7 +4,7 @@ metadata:
   name: archivematica-mcp-client
   namespace: '#{namespace}#' 
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: archivematica-mcp-client
@@ -39,11 +39,11 @@ spec:
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_CLAMAV_CLIENT_BACKEND
               value: clamdscanner
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_CLAMAV_CLIENT_MAX_FILE_SIZE
-              value: 2GB
+              value: "2048"
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_CLAMAV_CLIENT_MAX_SCAN_SIZE
-              value: 2GB
+              value: "2048"
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_CLAMAV_CLIENT_MAX_STREAM_LENGTH
-              value: 2GB
+              value: "2048"
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_CLAMAV_SERVER
               value: clamavd:3310
             - name: ARCHIVEMATICA_MCPCLIENT_MCPCLIENT_ELASTICSEARCHSERVER
