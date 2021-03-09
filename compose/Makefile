@@ -29,7 +29,7 @@ bootstrap: bootstrap-storage-service bootstrap-dashboard-db bootstrap-dashboard-
 bootstrap-storage-service:  ## Boostrap Storage Service (new database).
 	docker-compose exec mysql mysql -harchivematica-mysql.mysql.database.azure.com -upiqlconnect@archivematica-mysql -pServersAreKewl! -e "\
 		DROP DATABASE IF EXISTS SS; \
-		CREATE DATABASE SS; \
+		CREATE DATABASE SS;"
 	docker-compose run \
 		--rm \
 		--entrypoint /src/storage_service/manage.py \
@@ -73,7 +73,7 @@ manage-ss:  ## Run Django /manage.py on Storage Service, suppling <command> [opt
 bootstrap-dashboard-db:  ## Bootstrap Dashboard (new database).
 	docker-compose exec mysql mysql -harchivematica-mysql.mysql.database.azure.com -upiqlconnect@archivematica-mysql -pServersAreKewl! -e "\
 		DROP DATABASE IF EXISTS MCP; \
-		CREATE DATABASE MCP; \
+		CREATE DATABASE MCP;"
 	docker-compose run \
 		--rm \
 		--entrypoint /src/dashboard/src/manage.py \
