@@ -27,10 +27,9 @@ create-volumes:  ## Create external data volumes.
 bootstrap: bootstrap-storage-service bootstrap-dashboard-db bootstrap-dashboard-frontend  ## Full bootstrap.
 
 bootstrap-storage-service:  ## Boostrap Storage Service (new database).
-	docker-compose exec mysql mysql -hlocalhost -uroot -p12345 -e "\
+	docker-compose exec mysql mysql -harchivematica-mysql.mysql.database.azure.com -upiqlconnect@archivematica-mysql -pServersAreKewl! -e "\
 		DROP DATABASE IF EXISTS SS; \
 		CREATE DATABASE SS; \
-		GRANT ALL ON SS.* TO 'archivematica'@'%' IDENTIFIED BY 'demo';"
 	docker-compose run \
 		--rm \
 		--entrypoint /src/storage_service/manage.py \
@@ -72,10 +71,9 @@ manage-ss:  ## Run Django /manage.py on Storage Service, suppling <command> [opt
 				$(ARG)
 
 bootstrap-dashboard-db:  ## Bootstrap Dashboard (new database).
-	docker-compose exec mysql mysql -hlocalhost -uroot -p12345 -e "\
+	docker-compose exec mysql mysql -harchivematica-mysql.mysql.database.azure.com -upiqlconnect@archivematica-mysql -pServersAreKewl! -e "\
 		DROP DATABASE IF EXISTS MCP; \
 		CREATE DATABASE MCP; \
-		GRANT ALL ON MCP.* TO 'archivematica'@'%' IDENTIFIED BY 'demo';"
 	docker-compose run \
 		--rm \
 		--entrypoint /src/dashboard/src/manage.py \
