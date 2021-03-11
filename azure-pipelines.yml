@@ -111,4 +111,4 @@ stages:
               action: deploy
               kubernetesServiceConnection: ${{ variables.serviceEndpoint }}
               namespace: $(namespace)
-              manifests: '$(Pipeline.Workspace)/kube/deployment-*.yml'
+              manifests: '$(Pipeline.Workspace)/kube/deployments/deployment-*.yml'
