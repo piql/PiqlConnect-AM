@@ -30,8 +30,6 @@ spec:
               value: storage_service.settings.local
             - name: FORWARDED_ALLOW_IPS
               value: '*'        
-            - name: SS_DB_URL
-              value: '#{SS_DB_URL}#'
             - name: SS_GNUPG_HOME_PATH
               value: /var/archivematica/storage_service/.gnupg
             - name: SS_GUNICORN_ACCESSLOG
@@ -40,6 +38,9 @@ spec:
               value: "true"
             - name: SS_GUNICORN_RELOAD_ENGINE
               value: auto
+          envFrom:
+            - secretRef:
+              name: archivematica-settings
           resources: 
             requests:
               memory: "256Mi"
@@ -55,69 +56,7 @@ spec:
             - mountPath: /home
               name: archivematica-storage-service-location-data
 
-      initContainers:
-        - name: am-database-prepper
-          image: '#{DOCKER_REGISTRY}#/am-database-prepper:#{VERSION}#'
-          command: ['./ss-prep.sh']
-        - name: archivematica-storage-service-database-migrations
-          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
-          command: ['/src/storage_service/manage.py']
-          args: ["migrate --noinput"]
-          env:
-            - name: DJANGO_SETTINGS_MODULE
-              value: storage_service.settings.local
-            - name: FORWARDED_ALLOW_IPS
-              value: '*'        
-            - name: SS_DB_URL
-              value: 'mysql'
-            - name: SS_GNUPG_HOME_PATH
-              value: /var/archivematica/storage_service/.gnupg
-            - name: SS_GUNICORN_ACCESSLOG
-              value: /dev/null
-            - name: SS_GUNICORN_RELOAD
-              value: "true"
-            - name: SS_GUNICORN_RELOAD_ENGINE
-              value: auto
-        - name: archivematica-storage-service-database-migrations
-          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
-          command: ['/src/storage_service/manage.py']
-          args: ["migrate --noinput"]
-          env:
-            - name: DJANGO_SETTINGS_MODULE
-              value: storage_service.settings.local
-            - name: FORWARDED_ALLOW_IPS
-              value: '*'        
-            - name: SS_DB_URL
-              value: 'mysql'
-            - name: SS_GNUPG_HOME_PATH
-              value: /var/archivematica/storage_service/.gnupg
-            - name: SS_GUNICORN_ACCESSLOG
-              value: /dev/null
-            - name: SS_GUNICORN_RELOAD
-              value: "true"
-            - name: SS_GUNICORN_RELOAD_ENGINE
-              value: auto
-        - name: archivematica-storage-service-usercreation
-          image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'         
-          command: ['/src/storage_service/manage.py']
-          args: ['create_user --username="test" --password="test" --email="test@test.com" --api-key="test" --superuser']
-          env:
-            - name: DJANGO_SETTINGS_MODULE
-              value: storage_service.settings.local
-            - name: FORWARDED_ALLOW_IPS
-              value: '*'        
-            - name: SS_DB_URL
-              value: 'mysql'
-            - name: SS_GNUPG_HOME_PATH
-              value: /var/archivematica/storage_service/.gnupg
-            - name: SS_GUNICORN_ACCESSLOG
-              value: /dev/null
-            - name: SS_GUNICORN_RELOAD
-              value: "true"
-            - name: SS_GUNICORN_RELOAD_ENGINE
-              value: auto
       restartPolicy: Always
-
       volumes:       
         - name: archivematica-pipeline-data
           persistentVolumeClaim:

@@ -26,9 +26,9 @@ spec:
         - image: artefactual/gearmand:1.1.17-alpine
           name: gearmand
           args:
-            - --queue-type=redis
-            - --redis-server=redis
-            - --redis-port=6379
+            - --queue-type=#{GEARMAND_QUEUE_TYPE}#
+            - --redis-server=#{GEARMAND_REDIS_SERVER}#
+            - --redis-port=#{GEARMAND_REDIS_PORT}#
           ports:
             - containerPort: 4730
           resources: 
