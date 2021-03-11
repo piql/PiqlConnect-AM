@@ -40,7 +40,7 @@ spec:
               value: settings.common           
           envFrom:
             - secretRef:
-              name: archivematica-settings       
+                name: archivematica-settings       
           resources: 
             requests:
               memory: "256Mi"
