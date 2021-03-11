@@ -84,9 +84,26 @@ stages:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace tokens in **/*.yml'
             inputs:
-              rootDirectory: '$(Pipeline.Workspace)/kube'
+              rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
               targetFiles: '**/*.yml'
               escapeType: none  
+
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace tokens in archivematica.env'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
+              targetFiles: 'archivematica.env'
+              escapeType: none
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Secret - archivematica-settings'
+            inputs:
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              namespace: $(namespace)
+              secretType: generic
+              secretArguments: '--from-env-file=archivematica.env'
+              secretName: 'archivematica-settings'
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
    
           - task: KubernetesManifest@0
             displayName: Deploy services            
