@@ -87,8 +87,8 @@ metadata:
     app.kubernetes.io/managed-by: azure-devops
 spec:
   ports:
-    - name: "62006"
-      port: 62006
+    - name: clamavd-port
+      port: 3310
       targetPort: 3310
   selector:
     app.kubernetes.io/name: archivematica-fits

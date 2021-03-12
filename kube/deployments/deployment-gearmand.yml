@@ -29,6 +29,7 @@ spec:
             - --queue-type=#{GEARMAND_QUEUE_TYPE}#
             - --redis-server=#{GEARMAND_REDIS_SERVER}#
             - --redis-port=#{GEARMAND_REDIS_PORT}#
+            - --redis-password=#{GEARMAND_REDIS_PASSWORD}#
           ports:
             - containerPort: 4730
           resources: 
@@ -53,8 +54,8 @@ metadata:
     app.kubernetes.io/managed-by: azure-devops 
 spec:
   ports:
-    - name: "62004"
-      port: 62004
+    - name: gearmand-port
+      port: 4730
       targetPort: 4730
   selector:
     app.kubernetes.io/name: archivematica-gearmand
