@@ -60,7 +60,7 @@ spec:
               memory: "256Mi"
               cpu: "1m"
             limits:
-              memory: "512Mi"
+              memory: "102Mi"
               cpu: "250m"
 
           volumeMounts:
