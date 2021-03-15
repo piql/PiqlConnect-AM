@@ -73,7 +73,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: '#{namespace}'
+  namespace: '#{namespace}#'
   name: archivematica-storage-service
   labels:
     app.kubernetes.io/name: archivematica-storage-service
