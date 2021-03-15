@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-pipeline-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret'
+    shareName: archivematica-pipeline-data
+    readOnly: false
+  claimRef:
+    name: '#{namespace}#-pipeline-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-pipeline-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-staging-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret'
+    shareName: archivematica-staging-data
+    readOnly: false
+  claimRef:
+    name: '#{namespace}#-staging-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-staging-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-location-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret'
+    shareName: archivematica-location-data
+    readOnly: false
+  claimRef:
+    name: '#{namespace}#-location-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-location-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc
+  resources:
+    requests:
+      storage: 5Gi

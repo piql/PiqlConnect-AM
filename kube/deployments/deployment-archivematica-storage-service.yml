@@ -54,21 +54,21 @@ spec:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
             - mountPath: /var/archivematica/storage_service
-              name: archivematica-storage-service-staging-data
+              name: archivematica-staging-data
             - mountPath: /home
-              name: archivematica-storage-service-location-data
+              name: archivematica-location-data
 
       restartPolicy: Always
       volumes:       
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
-            claimName: archivematica-pipeline-data
-        - name: archivematica-storage-service-staging-data
+            claimName: '#{namespace}#-pipeline-data-claim'
+        - name: archivematica-staging-data
           persistentVolumeClaim:
-            claimName: archivematica-storage-service-staging-data
-        - name: archivematica-storage-service-location-data
+            claimName: '#{namespace}#-staging-data-claim'
+        - name: archivematica-location-data
           persistentVolumeClaim:
-            claimName: archivematica-storage-service-location-data
+            claimName: '#{namespace}#-location-data-claim'
 ---
 apiVersion: v1
 kind: Service

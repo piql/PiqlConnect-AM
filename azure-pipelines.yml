@@ -116,6 +116,14 @@ stages:
               secretArguments: '--from-env-file=archivematica.env'
               secretName: 'archivematica-settings'
               workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Persistent Volume Claims'
+            inputs:
+              connectionType: Kubernetes Service Connection
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              command: apply
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/volume-claims.yml
    
           - task: KubernetesManifest@0
             displayName: Deploy services            
