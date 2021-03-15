@@ -33,6 +33,10 @@ spec:
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops 
     spec:
+      hostAliases:
+      - ip: "104.16.218.84"
+        hostnames:
+        - "database.clamav.net"
       containers:
         - image: artefactual/clamav:latest
           name: clamavd
