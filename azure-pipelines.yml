@@ -66,9 +66,9 @@ stages:
     value: 'Archivematica (Development)'
   - name: namespace
     value: 'am-dev'
-  - name: AM-HOSTNAME
+  - name: am-hostname
     value: 'am-dev'
-  - name: AMSS-HOSTNAME
+  - name: amss-hostname
     value: 'amss-dev'
 
   - group: 'archivematica.env (Development)'

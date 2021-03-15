@@ -73,7 +73,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  app.kubernetes.io/name: archivematica-storage-service
+  namespace: '#{namespace}'
+  name: archivematica-storage-service
+  labels:
+    app.kubernetes.io/name: archivematica-storage-service
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops
 spec:  
   type: ClusterIP
   ports:
@@ -81,29 +88,28 @@ spec:
     targetPort: 8000
   selector:
     app.kubernetes.io/name: archivematica-storage-service
----
-apiVersion: extensions/v1
-kind: Ingress
-metadata:
-  name: archivematica-dashboard
-  labels:
-    app.kubernetes.io/name: archivematica-dashboard
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
     app.kubernetes.io/managed-by: azure-devops
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: '#{namespace}#'
+  name: archivematica-storage-service-ingress 
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: nginx    
+    nginx.org/server-snippets: "gzip on;"
+    cert-manager.io/cluster-issuer: letsencrypt-prod    
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"    
 spec:  
   tls:
   - hosts:
-    - 'amss-dev.piqlconnect.com'
-    secretName: 'amss-dev-piqlconnect-com-cert'
+    - '#{amss-hostname}#.piqlconnect.com'
+    secretName: '#{amss-hostname}#-piqlconnect-com-cert'
   rules:
-  - host: 'amss-dev.piqlconnect.com'
+  - host: '#{amss-hostname}#.piqlconnect.com'
     http:
       paths:           
       - path: /

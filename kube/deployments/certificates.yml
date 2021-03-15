@@ -2,15 +2,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  namespace: '#{NAMESPACE}#'
-  name: '#{AM-HOSTNAME}#-piqlconnect-com-cert'
+  namespace: '#{namespace}#'
+  name: '#{am-hostname}#-piqlconnect-com-cert'
 spec:
-  secretName: '#{AM-HOSTNAME}#-piqlconnect-com-cert'
+  secretName: '#{am-hostname}#-piqlconnect-com-cert'
   subject:
     organizations:
       - Piql
   dnsNames:
-  - '#{AM-HOSTNAME}#.piqlconnect.com'
+  - '#{am-hostname}#.piqlconnect.com'
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -18,15 +18,15 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  namespace: '#{NAMESPACE}#'
-  name: '#{AMSS-HOSTNAME}#-piqlconnect-com-cert'
+  namespace: '#{namespace}#'
+  name: '#{amss-hostname}#-piqlconnect-com-cert'
 spec:
-  secretName: '#{AMSS-HOSTNAME}#-piqlconnect-com-cert'
+  secretName: '#{amss-hostname}#-piqlconnect-com-cert'
   subject:
     organizations:
       - Piql
   dnsNames:
-  - '#{AMSS-HOSTNAME}#.piqlconnect.com'
+  - '#{amss-hostname}#.piqlconnect.com'
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
