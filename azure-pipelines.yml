@@ -55,19 +55,23 @@ stages:
       artifact: kube
       displayName: Publish Kubernetes manifests
 
-- stage: Deploy
-  displayName: Deploy to archivematica environment
+- stage: DeployDev
+  displayName: Deploy to Archivematica Dev environment
   dependsOn: Build
 
   variables:
   - name: environment
-    value: 'Archivematica'
+    value: 'Archivematica (Development)'
   - name: serviceEndpoint
-    value: 'archivematica'
+    value: 'Archivematica (Development)'
   - name: namespace
-    value: 'archivematica'
+    value: 'am-dev'
+  - name: AM-HOSTNAME
+    value: 'am-dev'
+  - name: AMSS-HOSTNAME
+    value: 'amss-dev'
 
-  - group: 'archivematica.env'
+  - group: 'archivematica.env (Development)'
 
   jobs:
   - deployment: Deploy
@@ -94,6 +98,14 @@ stages:
               rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
               targetFiles: 'archivematica.env'
               escapeType: none
+
+          - task: Kubernetes@1
+            displayName: Deploy certificates
+            inputs:
+              connectionType: Kubernetes Service Connection
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              command: apply
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
 
           - task: Kubernetes@1
             displayName: 'Deploy - Secret - archivematica-settings'

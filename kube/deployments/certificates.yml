@@ -1,0 +1,32 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  namespace: '#{NAMESPACE}#'
+  name: '#{AM-HOSTNAME}#-piqlconnect-com-cert'
+spec:
+  secretName: '#{AM-HOSTNAME}#-piqlconnect-com-cert'
+  subject:
+    organizations:
+      - Piql
+  dnsNames:
+  - '#{AM-HOSTNAME}#.piqlconnect.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  namespace: '#{NAMESPACE}#'
+  name: '#{AMSS-HOSTNAME}#-piqlconnect-com-cert'
+spec:
+  secretName: '#{AMSS-HOSTNAME}#-piqlconnect-com-cert'
+  subject:
+    organizations:
+      - Piql
+  dnsNames:
+  - '#{AMSS-HOSTNAME}#.piqlconnect.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
