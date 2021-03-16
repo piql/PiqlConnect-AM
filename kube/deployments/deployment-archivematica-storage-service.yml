@@ -116,6 +116,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: archivematica-dashboard
+            name: archivematica-storage-service
             port:
               number: 8000
