@@ -14,7 +14,6 @@ resources:
 
 variables:
   # Environment variables used by docker-compose
-  VERSION: '$(amVersion)'
   DOCKER_REGISTRY: '$(dockerRegistryId).azurecr.io'
 
   # Build Agent VM image
