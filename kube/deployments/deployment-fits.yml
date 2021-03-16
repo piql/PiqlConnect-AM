@@ -57,9 +57,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: fits-port
-      port: 2113
-      targetPort: 2113
+  - port: 2113
+    targetPort: 2113
   selector:
     app.kubernetes.io/name: archivematica-fits
     app.kubernetes.io/instance: '#{namespace}#'

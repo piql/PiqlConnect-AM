@@ -53,10 +53,10 @@ metadata:
     app.kubernetes.io/part-of: piqlconnect
     app.kubernetes.io/managed-by: azure-devops 
 spec:
+  type: ClusterIP
   ports:
-    - name: gearmand-port
-      port: 4730
-      targetPort: 4730
+  - port: 4730
+    targetPort: 4730
   selector:
     app.kubernetes.io/name: archivematica-gearmand
     app.kubernetes.io/instance: '#{namespace}#'
