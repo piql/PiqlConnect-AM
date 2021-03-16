@@ -118,4 +118,4 @@ spec:
           service:
             name: archivematica-dashboard
             port:
-              number: 80
+              number: 8000
