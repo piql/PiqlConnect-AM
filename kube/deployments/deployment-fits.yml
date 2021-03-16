@@ -41,7 +41,7 @@ spec:
       volumes:
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
-            claimName: archivematica-pipeline-data-claim
+            claimName: '#{namespace}#-pipeline-data-claim'
 ---
 apiVersion: v1
 kind: Service
