@@ -71,7 +71,7 @@ metadata:
 spec:  
   type: ClusterIP
   ports:
-  - port: 80
+  - port: 8000
     targetPort: 8000
   selector:
     app.kubernetes.io/name: archivematica-dashboard
