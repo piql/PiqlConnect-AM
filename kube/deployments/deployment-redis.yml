@@ -25,7 +25,7 @@ spec:
       containers:
         - image: 'redis:6-alpine'
           name: archivematica-redis            
-          args: ["--appendonly", "no"]  
+          args: ['--save ""', "--appendonly no"]  
           ports:
           - containerPort: 6379               
           resources: 
