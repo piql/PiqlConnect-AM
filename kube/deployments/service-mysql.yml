@@ -4,5 +4,5 @@ metadata:
   name: mysql
 spec:
   type: ExternalName
-  externalName: archivematica-mysql.mysql.database.azure.com
+  externalName: am-dev-mysql.mysql.database.azure.com
   clusterIP: ""
