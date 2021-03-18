@@ -83,7 +83,7 @@ spec:
         - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
           name: archivematica-storage-service-create-user
           command: ["/src/storage_service/manage.py"]
-          args: ["create_user", "--username='#{AM_SS_USERNAME}#'", "--password='#{AM_SS_PASSWORD}#'", "--email='#{AM_SS_EMAIL}#'", "--api-key='#{AM_SS_API_KEY}#'", "--superuser"]
+          args: ['create_user', '--username="#{AM_SS_USERNAME}#"', '--password="#{AM_SS_PASSWORD}#"', '--email="#{AM_SS_EMAIL}#"', '--api-key="#{AM_SS_API_KEY}#"', "--superuser"]
           envFrom:
             - secretRef:
                 name: archivematica-settings

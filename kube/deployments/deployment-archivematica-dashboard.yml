@@ -74,7 +74,7 @@ spec:
         - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
           name: archivematica-dashboard-create-superuser          
           command: ["/src/dashboard/src/manage.py"]
-          args: ["install","--username='#{AM_DASHBOARD_USERNAME}#'","--password='#{AM_DASHBOARD_PASSWORD}#'","--email='#{AM_DASHBOARD_EMAIL}#'","--org-name='#{AM_DASHBOARD_ORG_NAME}#'","--org-id='#{AM_DASHBOARD_ORG_ID}#'","--api-key='#{AM_DASHBOARD_API_KEY}#'","--ss-url=#{AM_SS_URL}#","--ss-user='#{AM_SS_USERNAME}#'","--ss-api-key='#{AM_SS_API_KEY}#'","--site-url='#{AM_DASHBOARD_SITE_URL}#'"]
+          args: ["install",'--username="#{AM_DASHBOARD_USERNAME}#"','--password="#{AM_DASHBOARD_PASSWORD}#"','--email="#{AM_DASHBOARD_EMAIL}#"','--org-name="#{AM_DASHBOARD_ORG_NAME}#"','--org-id="#{AM_DASHBOARD_ORG_ID}#"','--api-key="#{AM_DASHBOARD_API_KEY}#"','--ss-url="#{AM_SS_URL}#"','--ss-user="#{AM_SS_USERNAME}#"','--ss-api-key="#{AM_SS_API_KEY}#"','--site-url="#{AM_DASHBOARD_SITE_URL}#"']
           envFrom:
             - secretRef:
                 name: archivematica-settings      
