@@ -29,7 +29,6 @@ spec:
             - --queue-type=#{GEARMAND_QUEUE_TYPE}#
             - --redis-server=#{GEARMAND_REDIS_SERVER}#
             - --redis-port=#{GEARMAND_REDIS_PORT}#
-            - --redis-password=#{GEARMAND_REDIS_PASSWORD}#
           ports:
             - containerPort: 4730
           resources: 
