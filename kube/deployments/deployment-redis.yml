@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivematica-redis
+  namespace: '#{namespace}#'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-redis
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops    
+  strategy:
+    type: Recreate
+  template:
+    metadata:     
+      labels:
+        app.kubernetes.io/name: archivematica-redis
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops
+    spec:
+      containers:
+        - image: 'redis:6-alpine'
+          name: archivematica-redis            
+          command: ['--save "" --appendonly no']             
+          ports:
+          - containerPort: 6379               
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+
+      restartPolicy: Always  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '#{namespace}#'
+  name: archivematica-redis
+  labels:
+    app.kubernetes.io/name: archivematica-redis
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops
+spec:  
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app.kubernetes.io/name: archivematica-redis
+    app.kubernetes.io/instance: '#{namespace}#'
+    app.kubernetes.io/version: "#{VERSION}#"    
+    app.kubernetes.io/part-of: piqlconnect
+    app.kubernetes.io/managed-by: azure-devops
