@@ -57,8 +57,6 @@ spec:
               name: archivematica-staging-data
             - mountPath: /home
               name: archivematica-location-data
-          command:
-            - feature-gates=ConfigurableFSGroupPolicy=true
 
       initContainers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
