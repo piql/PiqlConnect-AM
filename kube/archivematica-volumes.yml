@@ -8,8 +8,8 @@ allowVolumeExpansion: true
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
-  - uid=0333
-  - gid=0333
+  - uid=333
+  - gid=333
   - mfsymlinks
   - cache=strict  # https://linux.die.net/man/8/mount.cifs
   - nosharesock  # reduce probability of reconnect race
