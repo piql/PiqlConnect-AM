@@ -25,7 +25,6 @@ spec:
       securityContext:
         runAsUser: 333
         runAsGroup: 333
-        fsUser: 333
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
