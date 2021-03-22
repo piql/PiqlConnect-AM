@@ -22,6 +22,11 @@ spec:
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
     spec:
+      securityContext:
+        runAsUser: 333
+        runAsGroup: 333
+        fsGroup: 333
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-client:#{VERSION}#'
           name: archivematica-mcp-client
