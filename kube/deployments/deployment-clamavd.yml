@@ -95,7 +95,7 @@ spec:
       port: 3310
       targetPort: 3310
   selector:
-    app.kubernetes.io/name: archivematica-fits
+    app.kubernetes.io/name: archivematica-clamavd
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
