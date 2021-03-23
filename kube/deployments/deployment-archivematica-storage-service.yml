@@ -63,6 +63,7 @@ spec:
               name: archivematica-staging-data
             - mountPath: /home
               name: archivematica-location-data
+              subPath: sips
 
       initContainers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
