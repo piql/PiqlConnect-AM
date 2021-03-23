@@ -91,9 +91,9 @@ stages:
             displayName: 'Deploy - Secret - am-dev-storage-secret'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
+              namespace: default
               secretType: generic
-              secretArguments: '--from-literal=azurestorageaccountname=${{ variables.azureStorageAccountName }} --from-literal=azurestorageaccountkey=${{ variables.azureStorageAccountKey }}'
+              secretArguments: '--from-env-file=storage-secret.env'
               secretName: '${{ variables.namespace }}-storage-secret'
               workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
 
@@ -175,15 +175,15 @@ stages:
               command: apply
               arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
 
-          - task: Kubernetes@1
-            displayName: 'Deploy - Secret - am-dev-storage-secret'
+        - task: Kubernetes@1
+            displayName: 'Deploy - Secret - am-test-storage-secret'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
+              namespace: default
               secretType: generic
-              secretArguments: '--from-literal=azurestorageaccountname=${{ variables.azureStorageAccountName }} --from-literal=azurestorageaccountkey=${{ variables.azureStorageAccountKey }}'
+              secretArguments: '--from-env-file=storage-secret.env'
               secretName: '${{ variables.namespace }}-storage-secret'
-              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'   
 
           - task: Kubernetes@1
             displayName: 'Deploy - Secret - archivematica-settings'
