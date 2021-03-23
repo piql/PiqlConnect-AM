@@ -90,9 +90,9 @@ metadata:
     app.kubernetes.io/part-of: piqlconnect
     app.kubernetes.io/managed-by: azure-devops
 spec:
+  type: ClusterIP
   ports:
-    - name: clamavd-port
-      port: 3310
+    - port: 3310
       targetPort: 3310
   selector:
     app.kubernetes.io/name: archivematica-clamavd
