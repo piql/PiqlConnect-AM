@@ -21,15 +21,15 @@ spec:
         app.kubernetes.io/version: "#{VERSION}#"    
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
-    spec:
-      securityContext:
-        runAsUser: 333
-        runAsGroup: 333
-        fsGroup: 333
-        fsGroupChangePolicy: "OnRootMismatch"
+    spec:    
       containers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-server:#{VERSION}#'
           name: archivematica-mcp-server
+          securityContext:
+            runAsUser: 333
+            runAsGroup: 333
+            fsGroup: 333
+            fsGroupChangePolicy: "OnRootMismatch"
           env:            
             - name: DJANGO_SECRET_KEY
               value: "12345"
