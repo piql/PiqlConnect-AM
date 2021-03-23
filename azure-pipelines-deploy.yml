@@ -73,10 +73,10 @@ stages:
               escapeType: none  
 
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace tokens in archivematica.env'
+            displayName: 'Replace tokens in *.env files'
             inputs:
               rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
-              targetFiles: 'archivematica.env'
+              targetFiles: '**/*.env'
               escapeType: none
 
           - task: Kubernetes@1
@@ -161,10 +161,10 @@ stages:
               escapeType: none  
 
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace tokens in archivematica.env'
+            displayName: 'Replace tokens in *.env files'
             inputs:
               rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
-              targetFiles: 'archivematica.env'
+              targetFiles: '**/*.env'
               escapeType: none
 
           - task: Kubernetes@1
