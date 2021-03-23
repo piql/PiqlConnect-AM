@@ -21,15 +21,16 @@ spec:
         app.kubernetes.io/version: "#{VERSION}#"    
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
-    spec:     
+    spec:
+      securityContext:
+        fsGroup: 333
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
           name: archivematica-storage-service
           securityContext:
             runAsUser: 333
             runAsGroup: 333
-            fsGroup: 333
-            fsGroupChangePolicy: "OnRootMismatch"
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: storage_service.settings.local
