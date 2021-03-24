@@ -153,6 +153,7 @@ metadata:
     nginx.org/server-snippets: "gzip on;"
     cert-manager.io/cluster-issuer: letsencrypt-prod    
     nginx.ingress.kubernetes.io/ssl-redirect: "true"    
+    nginx.ingress.kubernetes.io/whitelist-source-range: "#{AM_SS_WHITELIST_SOURCE_RANGE}#"
 spec:  
   tls:
   - hosts:
