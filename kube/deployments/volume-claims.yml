@@ -86,8 +86,8 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: '#{namespace}#-storage-secret'
-    shareName: archivematica-location-data
+    secretName: '#{namespace}#-storage-secret-ingest'
+    shareName: sips-share
     readOnly: false
   mountOptions:
   - dir_mode=0775

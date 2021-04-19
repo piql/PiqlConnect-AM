@@ -88,13 +88,23 @@ stages:
               arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
 
           - task: Kubernetes@1
-            displayName: 'Deploy - Secret - am-dev-storage-secret'
+            displayName: 'Deploy - Secret - storage-secret-ingest'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
               namespace: default
               secretType: generic
-              secretArguments: '--from-env-file=storage-secret.env'
-              secretName: '${{ variables.namespace }}-storage-secret'
+              secretArguments: '--from-env-file=storage-secret-ingest.env'
+              secretName: '${{ variables.namespace }}-storage-secret-ingest'
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'   
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Secret - storage-secret-am'
+            inputs:
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              namespace: default
+              secretType: generic
+              secretArguments: '--from-env-file=storage-secret-am.env'
+              secretName: '${{ variables.namespace }}-storage-secret-am'
               workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
 
           - task: Kubernetes@1
