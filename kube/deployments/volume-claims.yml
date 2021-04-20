@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: '#{namespace}#-storage-secret'
+    secretName: '#{namespace}#-storage-secret-am'
     shareName: archivematica-pipeline-data
     readOnly: false
   mountOptions:
@@ -47,7 +47,7 @@ spec:
   accessModes:
     - ReadWriteMany
   azureFile:
-    secretName: '#{namespace}#-storage-secret'
+    secretName: '#{namespace}#-storage-secret-am'
     shareName: archivematica-staging-data
     readOnly: false
   mountOptions:
