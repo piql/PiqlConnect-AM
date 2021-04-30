@@ -58,43 +58,43 @@ spec:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
 
-      # initContainers:
-      #   - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
-      #     name: archivematica-dashboard-migration          
-      #     command: ["/src/dashboard/src/manage.py"]
-      #     args: ["migrate", "--noinput"]
-      #     envFrom:
-      #       - secretRef:
-      #           name: archivematica-settings      
-      #     env:
-      #       - name: DJANGO_SETTINGS_MODULE
-      #         value: settings.local
-      #       - name: FORWARDED_ALLOW_IPS
-      #         value: '*'     
-      #       - name: AM_GUNICORN_ACCESSLOG
-      #         value: /dev/null
-      #       - name: AM_GUNICORN_RELOAD
-      #         value: "true"
-      #       - name: AM_GUNICORN_RELOAD_ENGINE
-      #         value: auto
-      #   - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
-      #     name: archivematica-dashboard-create-superuser          
-      #     command: ["/src/dashboard/src/manage.py"]
-      #     args: ["install",'--username=#{AM_DASHBOARD_USERNAME}#','--password=#{AM_DASHBOARD_PASSWORD}#','--email=#{AM_DASHBOARD_EMAIL}#','--org-name=#{AM_DASHBOARD_ORG_NAME}#','--org-id=#{AM_DASHBOARD_ORG_ID}#','--api-key=#{AM_DASHBOARD_API_KEY}#','--ss-url=#{AM_SS_URL}#','--ss-user=#{AM_SS_USERNAME}#','--ss-api-key=#{AM_SS_API_KEY}#','--site-url=#{AM_DASHBOARD_SITE_URL}#']
-      #     envFrom:
-      #       - secretRef:
-      #           name: archivematica-settings      
-      #     env:
-      #       - name: DJANGO_SETTINGS_MODULE
-      #         value: settings.local
-      #       - name: FORWARDED_ALLOW_IPS
-      #         value: '*'     
-      #       - name: AM_GUNICORN_ACCESSLOG
-      #         value: /dev/null
-      #       - name: AM_GUNICORN_RELOAD
-      #         value: "true"
-      #       - name: AM_GUNICORN_RELOAD_ENGINE
-      #         value: auto
+      initContainers:
+        - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
+          name: archivematica-dashboard-migration          
+          command: ["/src/dashboard/src/manage.py"]
+          args: ["migrate", "--noinput"]
+          envFrom:
+            - secretRef:
+                name: archivematica-settings      
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: settings.local
+            - name: FORWARDED_ALLOW_IPS
+              value: '*'     
+            - name: AM_GUNICORN_ACCESSLOG
+              value: /dev/null
+            - name: AM_GUNICORN_RELOAD
+              value: "true"
+            - name: AM_GUNICORN_RELOAD_ENGINE
+              value: auto
+        - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
+          name: archivematica-dashboard-create-superuser          
+          command: ["/src/dashboard/src/manage.py"]
+          args: ["install",'--username=#{AM_DASHBOARD_USERNAME}#','--password=#{AM_DASHBOARD_PASSWORD}#','--email=#{AM_DASHBOARD_EMAIL}#','--org-name=#{AM_DASHBOARD_ORG_NAME}#','--org-id=#{AM_DASHBOARD_ORG_ID}#','--api-key=#{AM_DASHBOARD_API_KEY}#','--ss-url=#{AM_SS_URL}#','--ss-user=#{AM_SS_USERNAME}#','--ss-api-key=#{AM_SS_API_KEY}#','--site-url=#{AM_DASHBOARD_SITE_URL}#']
+          envFrom:
+            - secretRef:
+                name: archivematica-settings      
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: settings.local
+            - name: FORWARDED_ALLOW_IPS
+              value: '*'     
+            - name: AM_GUNICORN_ACCESSLOG
+              value: /dev/null
+            - name: AM_GUNICORN_RELOAD
+              value: "true"
+            - name: AM_GUNICORN_RELOAD_ENGINE
+              value: auto
             
       restartPolicy: Always
       volumes:      
