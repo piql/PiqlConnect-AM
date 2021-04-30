@@ -230,3 +230,101 @@ stages:
               kubernetesServiceConnection: ${{ variables.serviceEndpoint }}
               namespace: $(namespace)
               manifests: '$(Pipeline.Workspace)/kube/deployments/deployment-*.yml'
+
+- stage: DeployProd
+  displayName: Deploy to Archivematica Prod environment
+  dependsOn: DeployTest
+
+  variables:
+  - name: environment
+    value: 'Archivematica (Prod)'
+  - name: serviceEndpoint
+    value: 'Archivematica (Prod)'
+  - name: namespace
+    value: 'am-prod'
+  - name: am-hostname
+    value: 'am'
+  - name: amss-hostname
+    value: 'amss'
+
+  - group: 'archivematica.env (Prod)'
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy Kubernetes resources
+    pool:
+      vmImage: $(vmImageName)
+    environment:
+      name: ${{ variables.environment }}
+      resourceType: Kubernetes
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace tokens in **/*.yml'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
+              targetFiles: '**/*.yml'
+              escapeType: none  
+
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace tokens in *.env files'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/kube/deployments'
+              targetFiles: '**/*.env'
+              escapeType: none
+
+          - task: Kubernetes@1
+            displayName: Deploy certificates
+            inputs:
+              connectionType: Kubernetes Service Connection
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              command: apply
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Secret - storage-secret-ingest'
+            inputs:
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              namespace: default
+              secretType: generic
+              secretArguments: '--from-env-file=storage-secret-ingest.env'
+              secretName: '${{ variables.namespace }}-storage-secret-ingest'
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'   
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Secret - storage-secret-am'
+            inputs:
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              namespace: default
+              secretType: generic
+              secretArguments: '--from-env-file=storage-secret-am.env'
+              secretName: '${{ variables.namespace }}-storage-secret-am'
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Secret - archivematica-settings'
+            inputs:
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              namespace: $(namespace)
+              secretType: generic
+              secretArguments: '--from-env-file=archivematica.env'
+              secretName: 'archivematica-settings'
+              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
+
+          - task: Kubernetes@1
+            displayName: 'Deploy - Persistent Volume Claims'
+            inputs:
+              connectionType: Kubernetes Service Connection
+              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
+              command: apply
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/volume-claims.yml
+   
+          - task: KubernetesManifest@0
+            displayName: Deploy services            
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: ${{ variables.serviceEndpoint }}
+              namespace: $(namespace)
+              manifests: '$(Pipeline.Workspace)/kube/deployments/deployment-*.yml'
