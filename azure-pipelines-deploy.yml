@@ -41,9 +41,9 @@ stages:
 
   variables:
   - name: environment
-    value: 'Archivematica (Development)'
+    value: 'Archivematica (Dev)'
   - name: serviceEndpoint
-    value: 'Archivematica (Development)'
+    value: 'Archivematica (Dev)'
   - name: namespace
     value: 'am-dev'
   - name: am-hostname
@@ -51,7 +51,7 @@ stages:
   - name: amss-hostname
     value: 'amss-dev'
 
-  - group: 'archivematica.env (Development)'
+  - group: 'archivematica.env (Dev)'
 
   jobs:
   - deployment: Deploy
