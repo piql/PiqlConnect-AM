@@ -17,7 +17,7 @@ spec:
   - uid=333
   - gid=333
   - mfsymlinks
-  - cache=strict  # https://linux.die.net/man/8/mount.cifs
+  - cache=none  # https://linux.die.net/man/8/mount.cifs
   - nosharesock  # reduce probability of reconnect race
   - actimeo=30  # reduce latency for metadata-heavy workload
   claimRef:
