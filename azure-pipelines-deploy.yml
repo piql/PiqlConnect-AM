@@ -91,7 +91,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-ingest'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-ingest.env'
               secretName: '${{ variables.namespace }}-storage-secret-ingest'
@@ -101,7 +101,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-am'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-am.env'
               secretName: '${{ variables.namespace }}-storage-secret-am'
@@ -189,7 +189,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-ingest'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-ingest.env'
               secretName: '${{ variables.namespace }}-storage-secret-ingest'
@@ -199,7 +199,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-am'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-am.env'
               secretName: '${{ variables.namespace }}-storage-secret-am'
@@ -287,7 +287,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-ingest'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-ingest.env'
               secretName: '${{ variables.namespace }}-storage-secret-ingest'
@@ -297,7 +297,7 @@ stages:
             displayName: 'Deploy - Secret - storage-secret-am'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: default
+              namespace: $(namespace)
               secretType: generic
               secretArguments: '--from-env-file=storage-secret-am.env'
               secretName: '${{ variables.namespace }}-storage-secret-am'
