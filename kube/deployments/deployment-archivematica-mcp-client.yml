@@ -57,11 +57,15 @@ spec:
           volumeMounts:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
-      restartPolicy: Always
+          
       volumes:     
         - name: archivematica-pipeline-data
           persistentVolumeClaim:
             claimName: '#{namespace}#-pipeline-data-claim'
+
+      restartPolicy: Always
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service

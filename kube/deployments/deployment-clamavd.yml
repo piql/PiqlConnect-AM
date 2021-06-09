@@ -71,7 +71,11 @@ spec:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
               readOnly: true
+      
       restartPolicy: Always
+      nodeSelector:
+        kubernetes.io/os: linux
+      
       volumes:
         - name: archivematica-pipeline-data
           persistentVolumeClaim:

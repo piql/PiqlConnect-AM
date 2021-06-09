@@ -36,7 +36,9 @@ spec:
               memory: "512Mi"
               cpu: "250m"
 
-      restartPolicy: Always  
+      restartPolicy: Always
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
