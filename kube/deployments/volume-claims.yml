@@ -19,7 +19,6 @@ spec:
   - mfsymlinks
   - cache=strict  # https://linux.die.net/man/8/mount.cifs
   - nosharesock  # reduce probability of reconnect race
-  - nostrictsync
   - actimeo=30  # reduce latency for metadata-heavy workload
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
