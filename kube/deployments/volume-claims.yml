@@ -12,10 +12,10 @@ spec:
     readOnly: false
     volumeHandle: '#{namespace}#-pipeline-data'
     volumeAttributes:
-      storageAccount: '#{ArchivematicaStorageAccountName}'
-      resourceGroup: '#{ArchivematicaResourceGroup}'      
+      storageAccount: '#{ArchivematicaStorageAccountName}#'
+      resourceGroup: '#{ArchivematicaResourceGroup}#'      
       secretName: '#{namespace}#-storage-secret-am'
-      secretNamespace: '#{namespace}'
+      secretNamespace: '#{namespace}#'
       shareName: archivematica-pipeline-data
       protocol: nfs
   claimRef:
@@ -49,10 +49,10 @@ spec:
     readOnly: false
     volumeHandle: '#{namespace}#-staging-data'
     volumeAttributes:
-      storageAccount: '#{ArchivematicaStorageAccountName}'
-      resourceGroup: '#{ArchivematicaResourceGroup}'      
+      storageAccount: '#{ArchivematicaStorageAccountName}#'
+      resourceGroup: '#{ArchivematicaResourceGroup}#'      
       secretName: '#{namespace}#-storage-secret-am'
-      secretNamespace: '#{namespace}'
+      secretNamespace: '#{namespace}#'
       shareName: archivematica-staging-data
       protocol: nfs
   claimRef:
@@ -86,10 +86,10 @@ spec:
     readOnly: false
     volumeHandle: '#{namespace}#-location-data'
     volumeAttributes:
-      storageAccount: '#{ArchivematicaStorageAccountName}'
-      resourceGroup: '#{ArchivematicaResourceGroup}'      
+      storageAccount: '#{ArchivematicaStorageAccountName}#'
+      resourceGroup: '#{ArchivematicaResourceGroup}#'      
       secretName: '#{namespace}#-storage-secret-am'
-      secretNamespace: '#{namespace}'
+      secretNamespace: '#{namespace}#'
       shareName: archivematica-location-data
       protocol: nfs
   claimRef:
