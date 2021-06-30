@@ -12,6 +12,7 @@ spec:
     readOnly: false
     volumeHandle: '#{namespace}#-pipeline-data'
     volumeAttributes:
+      storageAccount: archivematicadev
       resourceGroup: '#{resourceGroup}'      
       secretName: '#{namespace}#-storage-secret-am'
       secretNamespace: '#{namespace}'
