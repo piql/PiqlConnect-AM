@@ -32,7 +32,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: archivematica-sc-premium
+  storageClassName: archivematica-sc-premium-csi
   resources:
     requests:
       storage: 5Gi
@@ -71,7 +71,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: archivematica-sc-premium
+  storageClassName: archivematica-sc-premium-csi
   resources:
     requests:
       storage: 5Gi
@@ -110,7 +110,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: archivematica-sc-premium
+  storageClassName: archivematica-sc-premium-csi
   resources:
     requests:
       storage: 5Gi

@@ -54,8 +54,8 @@ spec:
               memory: "256Mi"
               cpu: "1m"
             limits:
-              memory: "512Mi"
-              cpu: "250m"
+              memory: "2048Mi"
+              cpu: "1000m"
           volumeMounts:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data

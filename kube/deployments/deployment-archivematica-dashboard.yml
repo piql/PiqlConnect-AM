@@ -4,7 +4,7 @@ metadata:
   name: archivematica-dashboard
   namespace: '#{namespace}#'
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: archivematica-dashboard
@@ -52,8 +52,8 @@ spec:
               memory: "256Mi"
               cpu: "1m"
             limits:
-              memory: "512Mi"
-              cpu: "250m"
+              memory: "2048Mi"
+              cpu: "1000m"
           volumeMounts:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data

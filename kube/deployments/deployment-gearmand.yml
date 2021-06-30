@@ -36,8 +36,8 @@ spec:
               memory: "256Mi"
               cpu: "1m"
             limits:
-              memory: "512Mi"
-              cpu: "250m"
+              memory: "2048Mi"
+              cpu: "1000m"
 
       restartPolicy: Always
       nodeSelector:
