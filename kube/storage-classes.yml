@@ -7,16 +7,10 @@ allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
-  - dir_mode=0775
-  - file_mode=0775
-  - uid=333
-  - gid=333
   - mfsymlinks
-  - cache=strict # https://linux.die.net/man/8/mount.cifs
-  - nosharesock
+  - actimeo=30
 parameters:
   protocol: nfs
-  fsType: nfs
   skuName: Standard_LRS
   location: westeurope
 ---
@@ -28,16 +22,10 @@ provisioner: file.csi.azure.com
 allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
-mountOptions:
-  - dir_mode=0775
-  - file_mode=0775
-  - uid=333
-  - gid=333
+mountOptions:  
   - mfsymlinks
-  - cache=strict # https://linux.die.net/man/8/mount.cifs
-  - nosharesock
+  - actimeo=30
 parameters:
   protocol: nfs
-  fsType: nfs
   skuName: Premium_LRS
   location: westeurope

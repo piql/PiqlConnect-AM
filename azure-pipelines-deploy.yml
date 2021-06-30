@@ -44,6 +44,8 @@ stages:
     value: 'Archivematica (Dev)'
   - name: serviceEndpoint
     value: 'Archivematica (Dev)'
+  - name: resourceGroup
+    value: archivematica-dev
   - name: namespace
     value: 'am-dev'
   - name: am-hostname
