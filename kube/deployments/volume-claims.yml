@@ -12,16 +12,7 @@ spec:
   azureFile:
     secretName: '#{namespace}#-storage-secret-am'
     shareName: archivematica-pipeline-data
-    readOnly: false
-  mountOptions:
-  - dir_mode=0775
-  - file_mode=0775
-  - uid=333
-  - gid=333
-  - mfsymlinks
-  - cache=strict  # https://linux.die.net/man/8/mount.cifs
-  - nosharesock  # reduce probability of reconnect race
-  - actimeo=30  # reduce latency for metadata-heavy workload
+    readOnly: false  
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
     namespace: '#{namespace}#' 
@@ -54,15 +45,6 @@ spec:
     secretName: '#{namespace}#-storage-secret-am'
     shareName: archivematica-staging-data
     readOnly: false
-  mountOptions:
-  - dir_mode=0775
-  - file_mode=0775
-  - uid=333
-  - gid=333
-  - mfsymlinks
-  - cache=strict  # https://linux.die.net/man/8/mount.cifs
-  - nosharesock  # reduce probability of reconnect race
-  - actimeo=30  # reduce latency for metadata-heavy workload
   claimRef:
     name: '#{namespace}#-staging-data-claim'
     namespace: '#{namespace}#' 
@@ -94,16 +76,7 @@ spec:
   azureFile:
     secretName: '#{namespace}#-storage-secret-ingest'
     shareName: sips-share
-    readOnly: false
-  mountOptions:
-  - dir_mode=0775
-  - file_mode=0775
-  - uid=333
-  - gid=333
-  - mfsymlinks
-  - cache=strict  # https://linux.die.net/man/8/mount.cifs
-  - nosharesock  # reduce probability of reconnect race
-  - actimeo=30  # reduce latency for metadata-heavy workload
+    readOnly: false 
   claimRef:
     name: '#{namespace}#-location-data-claim'
     namespace: '#{namespace}#' 

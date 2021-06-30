@@ -16,6 +16,7 @@ mountOptions:
   - nosharesock
 parameters:
   protocol: nfs
+  fsType: nfs
   skuName: Standard_LRS
   location: westeurope
 ---
@@ -37,5 +38,6 @@ mountOptions:
   - nosharesock
 parameters:
   protocol: nfs
+  fsType: nfs
   skuName: Premium_LRS
   location: westeurope
