@@ -18,6 +18,10 @@ spec:
       secretNamespace: '#{namespace}#'
       shareName: archivematica-pipeline-data
       protocol: nfs
+  mountOptions:
+    - vers=4
+    - minorversion=1
+    - sec=sys
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
     namespace: '#{namespace}#' 
@@ -55,6 +59,10 @@ spec:
       secretNamespace: '#{namespace}#'
       shareName: archivematica-staging-data
       protocol: nfs
+  mountOptions:
+    - vers=4
+    - minorversion=1
+    - sec=sys
   claimRef:
     name: '#{namespace}#-staging-data-claim'
     namespace: '#{namespace}#' 
@@ -92,6 +100,10 @@ spec:
       secretNamespace: '#{namespace}#'
       shareName: archivematica-location-data
       protocol: nfs
+  mountOptions:
+    - vers=4
+    - minorversion=1
+    - sec=sys
   claimRef:
     name: '#{namespace}#-location-data-claim'
     namespace: '#{namespace}#' 
