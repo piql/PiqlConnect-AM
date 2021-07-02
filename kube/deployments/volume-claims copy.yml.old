@@ -7,20 +7,17 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-#  csi:
-#    driver: file.csi.azure.com
-#    readOnly: false
-#    volumeHandle: '#{namespace}#-pipeline-data'
-#    volumeAttributes:
-#      storageAccount: '#{ArchivematicaStorageAccountName}#'
-#      resourceGroup: '#{ArchivematicaResourceGroup}#'      
-#      secretName: '#{namespace}#-storage-secret-am'
-#      secretNamespace: '#{namespace}#'
-#      shareName: archivematica-pipeline-data
-#      protocol: nfs
-  nfs:
-    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
-    path: '/#{ArchivematicaStorageAccountName}#/archivematica-pipeline-data'
+  csi:
+    driver: file.csi.azure.com
+    readOnly: false
+    volumeHandle: '#{namespace}#-pipeline-data'
+    volumeAttributes:
+      storageAccount: '#{ArchivematicaStorageAccountName}#'
+      resourceGroup: '#{ArchivematicaResourceGroup}#'      
+      secretName: '#{namespace}#-storage-secret-am'
+      secretNamespace: '#{namespace}#'
+      shareName: archivematica-pipeline-data
+      protocol: nfs
   mountOptions:
     - vers=4
     - minorversion=1
@@ -37,7 +34,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: ''
+  storageClassName: archivematica-sc-premium-csi
   resources:
     requests:
       storage: 100Gi
