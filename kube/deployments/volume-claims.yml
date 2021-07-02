@@ -12,7 +12,7 @@ spec:
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-pipeline-data'
   mountOptions:
     - noac
-    - vers=3
+    - vers=4
     - actimeo=0
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
@@ -45,7 +45,7 @@ spec:
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-staging-data'
   mountOptions:
     - noac
-    - vers=3
+    - vers=4
     - actimeo=0
   claimRef:
     name: '#{namespace}#-staging-data-claim'
@@ -78,7 +78,7 @@ spec:
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-location-data'
   mountOptions:
     - noac
-    - vers=3
+    - vers=4
     - actimeo=0
   claimRef:
     name: '#{namespace}#-location-data-claim'
