@@ -8,7 +8,7 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
   - mfsymlinks
-  - actimeo=30
+  - actimeo=1
 parameters:
   protocol: nfs
   skuName: Standard_LRS
@@ -24,7 +24,7 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:  
   - mfsymlinks
-  - actimeo=30
+  - actimeo=1
 parameters:
   protocol: nfs
   skuName: Premium_LRS
