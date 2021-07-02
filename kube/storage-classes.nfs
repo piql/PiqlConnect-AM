@@ -1,23 +1,31 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: archivematica-sc
-provisioner: kubernetes.io/azure-file
+  name: archivematica-sc-csi
+provisioner: file.csi.azure.com
 allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
+mountOptions:
+  - mfsymlinks
+  - actimeo=1
 parameters:
+  protocol: nfs
   skuName: Standard_LRS
   location: westeurope
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: archivematica-sc-premium
-provisioner: kubernetes.io/azure-file
+  name: archivematica-sc-premium-csi
+provisioner: file.csi.azure.com
 allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
+mountOptions:  
+  - mfsymlinks
+  - actimeo=1
 parameters:
+  protocol: nfs
   skuName: Premium_LRS
   location: westeurope
