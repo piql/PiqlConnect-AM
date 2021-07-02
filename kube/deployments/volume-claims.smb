@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-pipeline-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret-am'
+    shareName: archivematica-pipeline-data
+    readOnly: false
+  mountOptions:
+  - dir_mode=0775
+  - file_mode=0775
+  - uid=333
+  - gid=333
+  - mfsymlinks
+  - cache=strict  # https://linux.die.net/man/8/mount.cifs
+  - nosharesock  # reduce probability of reconnect race
+  - nostrictsync
+  - actimeo=30  # reduce latency for metadata-heavy workload
+  claimRef:
+    name: '#{namespace}#-pipeline-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-pipeline-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc-premium
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-staging-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret-am'
+    shareName: archivematica-staging-data
+    readOnly: false
+  mountOptions:
+  - dir_mode=0775
+  - file_mode=0775
+  - uid=333
+  - gid=333
+  - mfsymlinks
+  - cache=strict  # https://linux.die.net/man/8/mount.cifs
+  - nosharesock  # reduce probability of reconnect race
+  - actimeo=30  # reduce latency for metadata-heavy workload
+  claimRef:
+    name: '#{namespace}#-staging-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-staging-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc-premium
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-location-data'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  azureFile:
+    secretName: '#{namespace}#-storage-secret-am'
+    shareName:  archivematica-location-data
+    readOnly: false
+  mountOptions:
+  - dir_mode=0775
+  - file_mode=0775
+  - uid=333
+  - gid=333
+  - mfsymlinks
+  - cache=strict  # https://linux.die.net/man/8/mount.cifs
+  - nosharesock  # reduce probability of reconnect race
+  - actimeo=30  # reduce latency for metadata-heavy workload
+  claimRef:
+    name: '#{namespace}#-location-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{namespace}#-location-data-claim'
+  namespace: '#{namespace}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: archivematica-sc-premium
+  resources:
+    requests:
+      storage: 5Gi
