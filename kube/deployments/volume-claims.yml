@@ -16,6 +16,7 @@ spec:
     - minorversion=1
     - sec=sys
     - actimeo=0
+    - cto
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
     namespace: '#{namespace}#' 
