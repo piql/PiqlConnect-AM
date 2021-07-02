@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-pipeline-data'
   mountOptions:
     - noac
@@ -41,7 +41,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-staging-data'
   mountOptions:
     - noac
@@ -74,7 +74,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
     path: '/#{ArchivematicaStorageAccountName}#/archivematica-location-data'
   mountOptions:
     - noac
