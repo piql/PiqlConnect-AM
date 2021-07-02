@@ -25,6 +25,7 @@ spec:
     - vers=4
     - minorversion=1
     - sec=sys
+    - actimeo=0
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
     namespace: '#{namespace}#' 
@@ -51,21 +52,25 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-  csi:
-    driver: file.csi.azure.com
-    readOnly: false
-    volumeHandle: '#{namespace}#-staging-data'
-    volumeAttributes:
-      storageAccount: '#{ArchivematicaStorageAccountName}#'
-      resourceGroup: '#{ArchivematicaResourceGroup}#'      
-      secretName: '#{namespace}#-storage-secret-am'
-      secretNamespace: '#{namespace}#'
-      shareName: archivematica-staging-data
-      protocol: nfs
+#  csi:
+#    driver: file.csi.azure.com
+#    readOnly: false
+#    volumeHandle: '#{namespace}#-staging-data'
+#    volumeAttributes:
+#      storageAccount: '#{ArchivematicaStorageAccountName}#'
+#      resourceGroup: '#{ArchivematicaResourceGroup}#'      
+#      secretName: '#{namespace}#-storage-secret-am'
+#      secretNamespace: '#{namespace}#'
+#      shareName: archivematica-staging-data
+#      protocol: nfs
+  nfs:
+    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    path: '/#{ArchivematicaStorageAccountName}#/archivematica-staging-data'
   mountOptions:
     - vers=4
     - minorversion=1
     - sec=sys
+    - actimeo=0
   claimRef:
     name: '#{namespace}#-staging-data-claim'
     namespace: '#{namespace}#' 
@@ -78,7 +83,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: archivematica-sc-premium-csi
+  storageClassName: ''
   resources:
     requests:
       storage: 100Gi
@@ -92,21 +97,25 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-  csi:
-    driver: file.csi.azure.com
-    readOnly: false
-    volumeHandle: '#{namespace}#-location-data'
-    volumeAttributes:
-      storageAccount: '#{ArchivematicaStorageAccountName}#'
-      resourceGroup: '#{ArchivematicaResourceGroup}#'      
-      secretName: '#{namespace}#-storage-secret-am'
-      secretNamespace: '#{namespace}#'
-      shareName: archivematica-location-data
-      protocol: nfs
+#  csi:
+#    driver: file.csi.azure.com
+#    readOnly: false
+#    volumeHandle: '#{namespace}#-location-data'
+#    volumeAttributes:
+#      storageAccount: '#{ArchivematicaStorageAccountName}#'
+#      resourceGroup: '#{ArchivematicaResourceGroup}#'      
+#      secretName: '#{namespace}#-storage-secret-am'
+#      secretNamespace: '#{namespace}#'
+#      shareName: archivematica-location-data
+#      protocol: nfs
+  nfs:
+    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    path: '/#{ArchivematicaStorageAccountName}#/archivematica-location-data'
   mountOptions:
     - vers=4
     - minorversion=1
     - sec=sys
+    - actimeo=0  
   claimRef:
     name: '#{namespace}#-location-data-claim'
     namespace: '#{namespace}#' 
@@ -119,7 +128,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: archivematica-sc-premium-csi
+  storageClassName: ''
   resources:
     requests:
       storage: 100Gi
