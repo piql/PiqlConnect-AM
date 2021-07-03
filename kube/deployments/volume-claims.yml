@@ -8,14 +8,54 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
-    path: '/#{ArchivematicaStorageAccountName}#/archivematica-pipeline-data'
+    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
+    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-pipeline-data'
   mountOptions:
     - noac
     - vers=3
     - actimeo=0
   claimRef:
     name: '#{namespace}#-pipeline-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-staging-data'
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
+    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-staging-data'
+  mountOptions:
+    - noac
+    - vers=3
+    - actimeo=0
+  claimRef:
+    name: '#{namespace}#-staging-data-claim'
+    namespace: '#{namespace}#' 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{namespace}#-location-data'
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
+    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-location-data'
+  mountOptions:
+    - noac
+    - vers=3
+    - actimeo=0
+  claimRef:
+    name: '#{namespace}#-location-data-claim'
     namespace: '#{namespace}#' 
 ---
 apiVersion: v1
@@ -32,26 +72,6 @@ spec:
       storage: 100Gi
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: '#{namespace}#-staging-data'
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
-    path: '/#{ArchivematicaStorageAccountName}#/archivematica-staging-data'
-  mountOptions:
-    - noac
-    - vers=3
-    - actimeo=0
-  claimRef:
-    name: '#{namespace}#-staging-data-claim'
-    namespace: '#{namespace}#' 
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: '#{namespace}#-staging-data-claim'
@@ -63,26 +83,6 @@ spec:
   resources:
     requests:
       storage: 100Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: '#{namespace}#-location-data'
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: '#{ArchivematicaStorageAccountName}#.blob.core.windows.net'
-    path: '/#{ArchivematicaStorageAccountName}#/archivematica-location-data'
-  mountOptions:
-    - noac
-    - vers=3
-    - actimeo=0
-  claimRef:
-    name: '#{namespace}#-location-data-claim'
-    namespace: '#{namespace}#' 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

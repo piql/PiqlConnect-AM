@@ -88,16 +88,6 @@ stages:
               arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
 
           - task: Kubernetes@1
-            displayName: 'Deploy - Secret - storage-secret-am'
-            inputs:
-              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
-              secretType: generic
-              secretArguments: '--from-env-file=storage-secret-am.env'
-              secretName: '${{ variables.namespace }}-storage-secret-am'
-              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
-
-          - task: Kubernetes@1
             displayName: 'Deploy - Secret - archivematica-settings'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
@@ -176,16 +166,6 @@ stages:
               arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
 
           - task: Kubernetes@1
-            displayName: 'Deploy - Secret - storage-secret-am'
-            inputs:
-              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
-              secretType: generic
-              secretArguments: '--from-env-file=storage-secret-am.env'
-              secretName: '${{ variables.namespace }}-storage-secret-am'
-              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
-
-          - task: Kubernetes@1
             displayName: 'Deploy - Secret - archivematica-settings'
             inputs:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
@@ -262,26 +242,6 @@ stages:
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
               command: apply
               arguments: -f $(Pipeline.Workspace)/kube/deployments/certificates.yml
-
-          - task: Kubernetes@1
-            displayName: 'Deploy - Secret - storage-secret-ingest'
-            inputs:
-              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
-              secretType: generic
-              secretArguments: '--from-env-file=storage-secret-ingest.env'
-              secretName: '${{ variables.namespace }}-storage-secret-ingest'
-              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'   
-
-          - task: Kubernetes@1
-            displayName: 'Deploy - Secret - storage-secret-am'
-            inputs:
-              kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
-              namespace: $(namespace)
-              secretType: generic
-              secretArguments: '--from-env-file=storage-secret-am.env'
-              secretName: '${{ variables.namespace }}-storage-secret-am'
-              workingDirectory: '$(Pipeline.Workspace)/kube/deployments'  
 
           - task: Kubernetes@1
             displayName: 'Deploy - Secret - archivematica-settings'
