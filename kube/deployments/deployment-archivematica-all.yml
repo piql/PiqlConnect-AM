@@ -43,7 +43,7 @@ spec:
             - name: AM_GUNICORN_RELOAD_ENGINE
               value: auto
           ports:
-          - containerPort: 8000       
+          - containerPort: 8000
           envFrom:
             - secretRef:
                 name: archivematica-settings            
@@ -133,7 +133,7 @@ spec:
             - name: SS_GUNICORN_RELOAD_ENGINE
               value: auto
           ports:
-          - containerPort: 8000             
+          - containerPort: 8002         
           envFrom:
             - secretRef:
                 name: archivematica-settings
@@ -358,8 +358,8 @@ metadata:
 spec:  
   type: ClusterIP
   ports:
-  - port: 8000
-    targetPort: 8000
+  - port: 8001
+    targetPort: 8001
   selector:
     app.kubernetes.io/name: archivematica-dashboard
     app.kubernetes.io/instance: '#{namespace}#'
@@ -381,7 +381,7 @@ metadata:
 spec:  
   type: ClusterIP
   ports:
-  - port: 80
+  - port: 8000
     name: http-port
     protocol: TCP
     targetPort: 8000 
@@ -406,8 +406,8 @@ metadata:
 spec:  
   type: ClusterIP
   ports:
-  - port: 8000
-    targetPort: 8000
+  - port: 8002
+    targetPort: 8002
   selector:
     app.kubernetes.io/name: archivematica-storage-service
     app.kubernetes.io/instance: '#{namespace}#'
@@ -441,7 +441,7 @@ spec:
           service:
             name: archivematica-dashboard
             port:
-              number: 8000
+              number: 8001
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -469,7 +469,7 @@ spec:
           service:
             name: archivematica-storage-service
             port:
-              number: 8000
+              number: 8002
 
 
 
