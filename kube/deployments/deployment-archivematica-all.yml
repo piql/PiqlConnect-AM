@@ -319,7 +319,7 @@ spec:
     - port: 3310
       targetPort: 3310
   selector:
-    app.kubernetes.io/name: archivematica-clamavd
+    app.kubernetes.io/name: archivematica-all
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
@@ -342,7 +342,7 @@ spec:
   - port: 2113
     targetPort: 2113
   selector:
-    app.kubernetes.io/name: archivematica-fits
+    app.kubernetes.io/name: archivematica-all
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
@@ -365,7 +365,7 @@ spec:
   - port: 8001
     targetPort: 8001
   selector:
-    app.kubernetes.io/name: archivematica-dashboard
+    app.kubernetes.io/name: archivematica-all
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
@@ -390,7 +390,7 @@ spec:
     protocol: TCP
     targetPort: 8000 
   selector:
-    app.kubernetes.io/name: archivematica-mcp-client
+    app.kubernetes.io/name: archivematica-all
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
@@ -413,7 +413,7 @@ spec:
   - port: 8002
     targetPort: 8002
   selector:
-    app.kubernetes.io/name: archivematica-storage-service
+    app.kubernetes.io/name: archivematica-all
     app.kubernetes.io/instance: '#{namespace}#'
     app.kubernetes.io/version: "#{VERSION}#"    
     app.kubernetes.io/part-of: piqlconnect
