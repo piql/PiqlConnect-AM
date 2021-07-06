@@ -1,75 +1,15 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: '#{namespace}#-pipeline-data'
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
-    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-pipeline-data'
-  mountOptions:
-    - noac
-    - vers=3
-    - actimeo=0
-  claimRef:
-    name: '#{namespace}#-pipeline-data-claim'
-    namespace: '#{namespace}#' 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: '#{namespace}#-staging-data'
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
-    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-staging-data'
-  mountOptions:
-    - noac
-    - vers=3
-    - actimeo=0
-  claimRef:
-    name: '#{namespace}#-staging-data-claim'
-    namespace: '#{namespace}#' 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: '#{namespace}#-location-data'
-spec:
-  capacity:
-    storage: 100Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: '#{STORAGE_ACCOUNT_NAME}#.blob.core.windows.net'
-    path: '/#{STORAGE_ACCOUNT_NAME}#/archivematica-location-data'
-  mountOptions:
-    - noac
-    - vers=3
-    - actimeo=0
-  claimRef:
-    name: '#{namespace}#-location-data-claim'
-    namespace: '#{namespace}#' 
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: '#{namespace}#-pipeline-data-claim'
   namespace: '#{namespace}#'
 spec:
   accessModes:
-  - ReadWriteMany
-  storageClassName: ""
+  - ReadWriteOnce
+  storageClassName: managed-premium
   resources:
     requests:
-      storage: 100Gi
+      storage: 256Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -78,11 +18,11 @@ metadata:
   namespace: '#{namespace}#'
 spec:
   accessModes:
-  - ReadWriteMany
-  storageClassName: ""
+  - ReadWriteOnce
+  storageClassName: managed-premium
   resources:
     requests:
-      storage: 100Gi
+      storage: 256Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -91,9 +31,9 @@ metadata:
   namespace: '#{namespace}#'
 spec:
   accessModes:
-  - ReadWriteMany
-  storageClassName: ""
+  - ReadWriteOnce
+  storageClassName: managed-premium
   resources:
     requests:
-      storage: 100Gi
+      storage: 256Gi
 
