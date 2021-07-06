@@ -43,8 +43,7 @@ spec:
             - name: AM_GUNICORN_RELOAD_ENGINE
               value: auto
           ports:
-          - containerPort: 8001   
-            hostPort: 8000    
+          - containerPort: 8000
           envFrom:
             - secretRef:
                 name: archivematica-settings            
@@ -134,8 +133,7 @@ spec:
             - name: SS_GUNICORN_RELOAD_ENGINE
               value: auto
           ports:
-          - containerPort: 8002   
-            hostPort: 8000             
+          - containerPort: 8002         
           envFrom:
             - secretRef:
                 name: archivematica-settings
