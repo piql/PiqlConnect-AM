@@ -1,4 +1,33 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{NAMESPACE}#-transfer-source'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
+    path: '/#{ArchivematicaStorageAccountName}#/transfer-share'
+  claimRef:
+    name: '#{NAMESPACE}#-transfer-source-claim'
+    namespace: '#{NAMESPACE}#'  
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{NAMESPACE}#-transfer-source-claim'
+  namespace: '#{NAMESPACE}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: '#{namespace}#-pipeline-data-claim'

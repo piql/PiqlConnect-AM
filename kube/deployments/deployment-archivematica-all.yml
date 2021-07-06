@@ -59,6 +59,8 @@ spec:
           volumeMounts:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
+            - mountPath: /home/transfer
+              name: transfer-share
 
         - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-client:#{VERSION}#'
           name: archivematica-mcp-client
@@ -91,6 +93,8 @@ spec:
           volumeMounts:
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
+            - mountPath: /home/transfer
+              name: transfer-share
 
         - image: '#{DOCKER_REGISTRY}#/archivematica-mcp-server:#{VERSION}#'
           name: archivematica-mcp-server
@@ -115,6 +119,8 @@ spec:
           volumeMounts:          
             - mountPath: /var/archivematica/sharedDirectory
               name: archivematica-pipeline-data
+            - mountPath: /home/transfer
+              name: transfer-share
      
         - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
           name: archivematica-storage-service
@@ -156,6 +162,8 @@ spec:
             - mountPath: /home
               name: archivematica-location-data
               subPath: sips
+            - mountPath: /home/transfer
+              name: transfer-share
 
         - image: artefactual/clamav:latest
           name: clamavd
@@ -301,6 +309,9 @@ spec:
         - name: archivematica-location-data
           persistentVolumeClaim:
             claimName: '#{namespace}#-location-data-claim'
+        - name: transfer-share
+          persistentVolumeClaim:
+            claimName: '#{namespace}#-transfer-source-claim'
 ---
 apiVersion: v1
 kind: Service
