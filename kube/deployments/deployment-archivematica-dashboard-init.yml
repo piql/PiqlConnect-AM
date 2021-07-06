@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivematica-dashboard-init
+  namespace: '#{namespace}#'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: archivematica-dashboard-init
+      app.kubernetes.io/instance: '#{namespace}#'
+      app.kubernetes.io/part-of: piqlconnect
+      app.kubernetes.io/managed-by: azure-devops    
+  strategy:
+    type: Recreate
+  template:
+    metadata:     
+      labels:
+        app.kubernetes.io/name: archivematica-dashboard-init
+        app.kubernetes.io/instance: '#{namespace}#'
+        app.kubernetes.io/version: "#{VERSION}#"    
+        app.kubernetes.io/part-of: piqlconnect
+        app.kubernetes.io/managed-by: azure-devops
+    spec:
+      containers:
+        - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
+          name: archivematica-dashboard-create-superuser          
+          command: ["/src/dashboard/src/manage.py"]
+          args: ["install",'--username=#{AM_DASHBOARD_USERNAME}#','--password=#{AM_DASHBOARD_PASSWORD}#','--email=#{AM_DASHBOARD_EMAIL}#','--org-name=#{AM_DASHBOARD_ORG_NAME}#','--org-id=#{AM_DASHBOARD_ORG_ID}#','--api-key=#{AM_DASHBOARD_API_KEY}#','--ss-url=#{AM_SS_URL}#','--ss-user=#{AM_SS_USERNAME}#','--ss-api-key=#{AM_SS_API_KEY}#','--site-url=#{AM_DASHBOARD_SITE_URL}#']
+          envFrom:
+            - secretRef:
+                name: archivematica-settings      
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: settings.local
+            - name: FORWARDED_ALLOW_IPS
+              value: '*'     
+            - name: AM_GUNICORN_ACCESSLOG
+              value: /dev/null
+            - name: AM_GUNICORN_RELOAD
+              value: "true"
+            - name: AM_GUNICORN_RELOAD_ENGINE
+              value: auto
+          
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+            
+      restartPolicy: OnFailure
+      nodeSelector:
+        kubernetes.io/os: linux      
