@@ -32,6 +32,8 @@ spec:
             runAsUser: 333
             runAsGroup: 333
           env:
+            - name: AM_GUNICORN_BIND 
+              value: 0.0.0.0:8001
             - name: DJANGO_SETTINGS_MODULE
               value: settings.local
             - name: FORWARDED_ALLOW_IPS
@@ -43,7 +45,7 @@ spec:
             - name: AM_GUNICORN_RELOAD_ENGINE
               value: auto
           ports:
-          - containerPort: 8000
+          - containerPort: 8001
           envFrom:
             - secretRef:
                 name: archivematica-settings            
@@ -120,6 +122,8 @@ spec:
             runAsUser: 333
             runAsGroup: 333
           env:
+            - name: SS_GUNICORN_BIND
+              value: 0.0.0.0:8002
             - name: DJANGO_SETTINGS_MODULE
               value: storage_service.settings.local
             - name: FORWARDED_ALLOW_IPS
@@ -210,7 +214,7 @@ spec:
           envFrom:
             - secretRef:
                 name: archivematica-settings
-          env:
+          env:          
             - name: DJANGO_SETTINGS_MODULE
               value: storage_service.settings.local
             - name: FORWARDED_ALLOW_IPS
