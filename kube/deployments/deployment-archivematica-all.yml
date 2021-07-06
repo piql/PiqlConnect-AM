@@ -26,6 +26,49 @@ spec:
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
+        - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
+          name: archivematica-storage-service
+          securityContext:
+            runAsUser: 333
+            runAsGroup: 333
+          env:
+            - name: SS_GUNICORN_BIND
+              value: 0.0.0.0:8002
+            - name: DJANGO_SETTINGS_MODULE
+              value: storage_service.settings.local
+            - name: FORWARDED_ALLOW_IPS
+              value: '*'        
+            - name: SS_GNUPG_HOME_PATH
+              value: /var/archivematica/storage_service/.gnupg
+            - name: SS_GUNICORN_ACCESSLOG
+              value: /dev/null
+            - name: SS_GUNICORN_RELOAD
+              value: "true"
+            - name: SS_GUNICORN_RELOAD_ENGINE
+              value: auto
+          ports:
+          - containerPort: 8002         
+          envFrom:
+            - secretRef:
+                name: archivematica-settings
+          resources: 
+            requests:
+              memory: "256Mi"
+              cpu: "1m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+          volumeMounts:
+            - mountPath: /var/archivematica/sharedDirectory
+              name: archivematica-pipeline-data
+            - mountPath: /var/archivematica/storage_service
+              name: archivematica-staging-data
+            - mountPath: /home
+              name: archivematica-location-data
+              subPath: sips
+            - mountPath: /home/transfer
+              name: transfer-share
+        
         - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
           name: archivematica-dashboard      
           securityContext:
@@ -46,6 +89,12 @@ spec:
               value: auto
           ports:
           - containerPort: 8001
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/src/dashboard/src/manage.py"]
+                args: ["install",'--username=#{AM_DASHBOARD_USERNAME}#','--password=#{AM_DASHBOARD_PASSWORD}#','--email=#{AM_DASHBOARD_EMAIL}#','--org-name=#{AM_DASHBOARD_ORG_NAME}#','--org-id=#{AM_DASHBOARD_ORG_ID}#','--api-key=#{AM_DASHBOARD_API_KEY}#','--ss-url=#{AM_SS_URL}#','--ss-user=#{AM_SS_USERNAME}#','--ss-api-key=#{AM_SS_API_KEY}#','--site-url=#{AM_DASHBOARD_SITE_URL}#']
+          
           envFrom:
             - secretRef:
                 name: archivematica-settings            
@@ -121,50 +170,7 @@ spec:
               name: archivematica-pipeline-data
             - mountPath: /home/transfer
               name: transfer-share
-     
-        - image: '#{DOCKER_REGISTRY}#/archivematica-storage-service:#{VERSION}#'
-          name: archivematica-storage-service
-          securityContext:
-            runAsUser: 333
-            runAsGroup: 333
-          env:
-            - name: SS_GUNICORN_BIND
-              value: 0.0.0.0:8002
-            - name: DJANGO_SETTINGS_MODULE
-              value: storage_service.settings.local
-            - name: FORWARDED_ALLOW_IPS
-              value: '*'        
-            - name: SS_GNUPG_HOME_PATH
-              value: /var/archivematica/storage_service/.gnupg
-            - name: SS_GUNICORN_ACCESSLOG
-              value: /dev/null
-            - name: SS_GUNICORN_RELOAD
-              value: "true"
-            - name: SS_GUNICORN_RELOAD_ENGINE
-              value: auto
-          ports:
-          - containerPort: 8002         
-          envFrom:
-            - secretRef:
-                name: archivematica-settings
-          resources: 
-            requests:
-              memory: "256Mi"
-              cpu: "1m"
-            limits:
-              memory: "2048Mi"
-              cpu: "1000m"
-          volumeMounts:
-            - mountPath: /var/archivematica/sharedDirectory
-              name: archivematica-pipeline-data
-            - mountPath: /var/archivematica/storage_service
-              name: archivematica-staging-data
-            - mountPath: /home
-              name: archivematica-location-data
-              subPath: sips
-            - mountPath: /home/transfer
-              name: transfer-share
-
+             
         - image: artefactual/clamav:latest
           name: clamavd
           ports:
@@ -276,26 +282,6 @@ spec:
             - name: AM_GUNICORN_RELOAD_ENGINE
               value: auto
             
-      ephemeralContainers:
-        - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
-          name: archivematica-dashboard-create-superuser          
-          command: ["/src/dashboard/src/manage.py"]
-          args: ["install",'--username=#{AM_DASHBOARD_USERNAME}#','--password=#{AM_DASHBOARD_PASSWORD}#','--email=#{AM_DASHBOARD_EMAIL}#','--org-name=#{AM_DASHBOARD_ORG_NAME}#','--org-id=#{AM_DASHBOARD_ORG_ID}#','--api-key=#{AM_DASHBOARD_API_KEY}#','--ss-url=#{AM_SS_URL}#','--ss-user=#{AM_SS_USERNAME}#','--ss-api-key=#{AM_SS_API_KEY}#','--site-url=#{AM_DASHBOARD_SITE_URL}#']
-          envFrom:
-            - secretRef:
-                name: archivematica-settings      
-          env:
-            - name: DJANGO_SETTINGS_MODULE
-              value: settings.local
-            - name: FORWARDED_ALLOW_IPS
-              value: '*'     
-            - name: AM_GUNICORN_ACCESSLOG
-              value: /dev/null
-            - name: AM_GUNICORN_RELOAD
-              value: "true"
-            - name: AM_GUNICORN_RELOAD_ENGINE
-              value: auto               
-
       restartPolicy: Always
       nodeSelector:
         kubernetes.io/os: linux
