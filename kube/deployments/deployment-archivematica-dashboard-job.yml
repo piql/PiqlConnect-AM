@@ -4,7 +4,7 @@ metadata:
   name: archivematica-dashboard-init-job
   namespace: '#{namespace}#'
 spec:
-  backoffLimit: 1
+  backoffLimit: 10
   template:
     spec:
       containers:
