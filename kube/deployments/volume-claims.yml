@@ -8,8 +8,8 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: '#{ArchivematicaStorageAccountName}#.file.core.windows.net'
-    path: '/#{ArchivematicaStorageAccountName}#/transfer-share'
+    server: '#{STORAGE_ACCOUNT_NAME}#.file.core.windows.net'
+    path: '/#{STORAGE_ACCOUNT_NAME}#/transfer-share'
   claimRef:
     name: '#{NAMESPACE}#-transfer-source-claim'
     namespace: '#{NAMESPACE}#'  
