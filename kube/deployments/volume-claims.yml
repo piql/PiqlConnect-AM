@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: '#{NAMESPACE}#-transfer-source'
+  name: '#{NAMESPACE}#-transfer'
 spec:
   capacity:
     storage: 5Gi
@@ -11,13 +11,42 @@ spec:
     server: '#{STORAGE_ACCOUNT_NAME}#.file.core.windows.net'
     path: '/#{STORAGE_ACCOUNT_NAME}#/transfer-share'
   claimRef:
-    name: '#{NAMESPACE}#-transfer-source-claim'
+    name: '#{NAMESPACE}#-transfer-claim'
+    namespace: '#{NAMESPACE}#'  
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: '#{NAMESPACE}#-storage'
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: '#{STORAGE_ACCOUNT_NAME}#.file.core.windows.net'
+    path: '/#{STORAGE_ACCOUNT_NAME}#/storage-share'
+  claimRef:
+    name: '#{NAMESPACE}#-storage-claim'
     namespace: '#{NAMESPACE}#'  
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: '#{NAMESPACE}#-transfer-source-claim'
+  name: '#{NAMESPACE}#-transfer-claim'
+  namespace: '#{NAMESPACE}#'
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: '#{NAMESPACE}#-storage-claim'
   namespace: '#{NAMESPACE}#'
 spec:
   accessModes:

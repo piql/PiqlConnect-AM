@@ -1,3 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: archivematica-clamav-env
+  namespace: '#{namespace}#'
+data:
+  CLAMAV_MAX_FILE_SIZE: "2048"
+  CLAMAV_MAX_SCAN_SIZE: "2048"
+  CLAMAV_MAX_STREAM_LENGTH: "2048"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -68,6 +78,8 @@ spec:
               subPath: sips
             - mountPath: /home/transfer
               name: transfer-share
+            - mountPath: /data/storage
+              name: storage-share
         
         - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
           name: archivematica-dashboard      
@@ -292,7 +304,10 @@ spec:
             claimName: '#{namespace}#-location-data-claim'
         - name: transfer-share
           persistentVolumeClaim:
-            claimName: '#{namespace}#-transfer-source-claim'
+            claimName: '#{namespace}#-transfer-claim'
+        - name: storage-share
+          persistentVolumeClaim:
+            claimName: '#{namespace}#-storage-claim'
 ---
 apiVersion: v1
 kind: Service
