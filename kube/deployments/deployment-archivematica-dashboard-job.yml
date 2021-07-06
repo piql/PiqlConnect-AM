@@ -1,26 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Job
 metadata:
-  name: archivematica-dashboard-init
+  name: archivematica-dashboard-init-job
   namespace: '#{namespace}#'
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: archivematica-dashboard-init
-      app.kubernetes.io/instance: '#{namespace}#'
-      app.kubernetes.io/part-of: piqlconnect
-      app.kubernetes.io/managed-by: azure-devops    
-  strategy:
-    type: Recreate
+  backoffLimit: 1
   template:
-    metadata:     
-      labels:
-        app.kubernetes.io/name: archivematica-dashboard-init
-        app.kubernetes.io/instance: '#{namespace}#'
-        app.kubernetes.io/version: "#{VERSION}#"    
-        app.kubernetes.io/part-of: piqlconnect
-        app.kubernetes.io/managed-by: azure-devops
     spec:
       containers:
         - image: '#{DOCKER_REGISTRY}#/archivematica-dashboard:#{VERSION}#'
@@ -41,15 +26,5 @@ spec:
               value: "true"
             - name: AM_GUNICORN_RELOAD_ENGINE
               value: auto
-          
-          resources: 
-            requests:
-              memory: "256Mi"
-              cpu: "1m"
-            limits:
-              memory: "2048Mi"
-              cpu: "1000m"
-            
-      restartPolicy: OnFailure
-      nodeSelector:
-        kubernetes.io/os: linux      
+
+      restartPolicy: Never
