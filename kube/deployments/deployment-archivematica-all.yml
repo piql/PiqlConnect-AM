@@ -77,7 +77,24 @@ spec:
             - name: DJANGO_SECRET_KEY
               value: "12345"
             - name: DJANGO_SETTINGS_MODULE
-              value: settings.common           
+              value: settings.common
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_BACKEND
+              value: "django.core.mail.backends.smtp.EmailBackend"
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_HOST
+              value: "smtp.sendgrid.net"
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_PORT
+              value: "587"
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_HOST_USER
+              value: '#{EMAIL_USER}#'
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_HOST_PASSWORD
+              value: '#{EMAIL_PASSWORD}#'
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_DEFAULT_FROM_EMAIL
+              value: "am-reports@piqlconnect.com"
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_SERVER_EMAIL
+              value: "support@piql.com"
+            - name: ARCHIVEMATICA_MCPCLIENT_EMAIL_SUBJECT_PREFIX
+              value: '#{EMAIL_SUBJECT_PREFIX}#'
+                     
           envFrom:
             - secretRef:
                 name: archivematica-settings       
