@@ -103,7 +103,7 @@ stages:
               connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
               command: apply
-              arguments: -f $(Pipeline.Workspace)/kube/deployments/volume-claims.yml
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/dev/volume-claims.yml
    
           - task: KubernetesManifest@0
             displayName: Deploy services            
@@ -181,7 +181,7 @@ stages:
               connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
               command: apply
-              arguments: -f $(Pipeline.Workspace)/kube/deployments/volume-claims.yml
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/test/volume-claims.yml
    
           - task: KubernetesManifest@0
             displayName: Deploy services            
@@ -259,7 +259,7 @@ stages:
               connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: ${{ variables.serviceEndpoint }}
               command: apply
-              arguments: -f $(Pipeline.Workspace)/kube/deployments/volume-claims.yml
+              arguments: -f $(Pipeline.Workspace)/kube/deployments/prod/volume-claims.yml
    
           - task: KubernetesManifest@0
             displayName: Deploy services            
