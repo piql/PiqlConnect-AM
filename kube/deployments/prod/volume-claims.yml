@@ -54,7 +54,7 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 5Gi
+      storage: 5Ti
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -67,7 +67,7 @@ spec:
   storageClassName: managed-premium
   resources:
     requests:
-      storage: 256Gi
+      storage: 1Ti
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -80,7 +80,7 @@ spec:
   storageClassName: managed-premium
   resources:
     requests:
-      storage: 256Gi
+      storage: 1Ti
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -93,5 +93,5 @@ spec:
   storageClassName: managed-premium
   resources:
     requests:
-      storage: 256Gi
+      storage: 512Gi
 
