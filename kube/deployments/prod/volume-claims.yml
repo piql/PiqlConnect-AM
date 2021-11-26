@@ -54,7 +54,7 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 5Ti
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
