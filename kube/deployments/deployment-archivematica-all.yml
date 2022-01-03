@@ -23,13 +23,6 @@ spec:
       app.kubernetes.io/managed-by: azure-devops    
   strategy:
     type: Recreate
-  topologySpreadConstraints:
-  - maxSkew: 1
-    topologyKey: node
-    whenUnsatisfiable: DoNotSchedule
-    labelSelector:
-      matchLabels:
-        foo: archivematica-all
   template:
     metadata:     
       labels:
@@ -39,6 +32,13 @@ spec:
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
     spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: node
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            foo: archivematica-all
       securityContext:
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
