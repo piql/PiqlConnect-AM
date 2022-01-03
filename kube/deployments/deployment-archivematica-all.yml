@@ -38,7 +38,7 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app.kubernetes.io/name: archivematica-all
+            name: archivematica-all
       securityContext:
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
