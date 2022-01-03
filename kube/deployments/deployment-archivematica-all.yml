@@ -23,6 +23,13 @@ spec:
       app.kubernetes.io/managed-by: azure-devops    
   strategy:
     type: Recreate
+  topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: node
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        foo: archivematica-all
   template:
     metadata:     
       labels:
