@@ -37,15 +37,9 @@ spec:
         topologyKey: topology.kubernetes.io/zone
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
-        - matchExpressions:
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - archivematica-all
-          - key: app.kubernetes.io/instance
-            operator: In
-            values:
-            - '#{namespace}#'
+          matchLabels:
+            app.kubernetes.io/name: archivematica-all
+            app.kubernetes.io/instance: '#{namespace}#'
       securityContext:
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
