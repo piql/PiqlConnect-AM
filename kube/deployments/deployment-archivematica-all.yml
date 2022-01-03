@@ -31,15 +31,14 @@ spec:
         app.kubernetes.io/version: "#{VERSION}#"    
         app.kubernetes.io/part-of: piqlconnect
         app.kubernetes.io/managed-by: azure-devops
-        app: archivematica-all
     spec:
       topologySpreadConstraints:
       - maxSkew: 1
-        topologyKey: node
+        topologyKey: zone
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: archivematica-all
+            app.kubernetes.io/name: archivematica-all
       securityContext:
         fsGroup: 333
         fsGroupChangePolicy: "OnRootMismatch"
